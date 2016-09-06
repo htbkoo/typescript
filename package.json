@@ -1,6 +1,6 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "hey-typeScript-hg",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "express": "latest"
@@ -11,6 +11,12 @@
     "chai": "latest",
     "qunit": "latest",
     "jquery": "latest",
+    "ts-node": "latest",
+    "typescript": "latest",
     "qunit-parameterize": "latest"
+  },
+  "scripts": {
+    "test": "mocha --opts mocha.opts",
+    "postinstall": "typings install"
   }
 }
