@@ -8,6 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testMocha" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_7kyu/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_6kyu/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_6kyu/test/resources" type="java-test-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
