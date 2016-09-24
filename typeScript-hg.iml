@@ -11,12 +11,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_6kyu/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_6kyu/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_8kyu/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/typescript/online/codewars/_5kyu/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery-1.11.3" level="project" />
     <orderEntry type="library" name="jquery-ui-1.11.4" level="project" />
     <orderEntry type="library" name="qunit-1.23.1" level="application" />
-    <orderEntry type="library" name="javaScript-hg node_modules" level="project" />
   </component>
 </module>
