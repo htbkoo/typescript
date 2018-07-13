@@ -9,5 +9,7 @@
     "typings/index.d.ts",
     "src/**/*"
   ],
-  "exnclude": []
+  "exclude": [
+    "typings/**/*"
+  ]
 }
