@@ -14,6 +14,7 @@ describe("fibonacci", function () {
         {n: 6, expected: 8},
         {n: 7, expected: 13},
         {n: 8, expected: 21},
+        {n: 9, expected: 34},
     ].forEach(({n, expected}) =>
         it(`should calculate fibonacci number F(${n})=${expected}`, function () {
             // given
