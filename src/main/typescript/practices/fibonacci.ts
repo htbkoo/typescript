@@ -1,10 +1,8 @@
 function fibonacci(n: number): number {
     if (n <= 0) {
         return 0;
-    } else if (n === 1) {
-        return 1;
     }
-    return tail_fibonacci(n, 2, 1, 1);
+    return tail_fibonacci(n, 1, 0, 1);
 }
 
 function tail_fibonacci(n: number, curr: number, small: number, large: number): number {
