@@ -1,11 +1,10 @@
 /**
  * Created by Hey on 31 Jul 2016
- * 
+ *
  * ---
- * 
+ *
  * Test infrastructure for mocha tests
  */
-
 var srcDirRequire = function (dirName, name) {
     'use strict';
     var main_dir_name = "main", test_dir_name = "testMocha";
@@ -17,5 +16,5 @@ var srcDirRequire = function (dirName, name) {
     }
     return require(dirName.replace(test_dir_name, main_dir_name) + '\\' + name);
 };
-
 module.exports = srcDirRequire;
+//# sourceMappingURL=testInfrastructure.js.map
