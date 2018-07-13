@@ -7,14 +7,16 @@
     "typings": "latest"
   },
   "devDependencies": {
-    "qunitjs": "latest",
-    "mocha": "latest",
+    "@types/mocha": "^5.2.4",
+    "@types/node": "^10.5.2",
     "chai": "latest",
-    "qunit": "latest",
     "jquery": "latest",
+    "mocha": "latest",
+    "qunit": "latest",
+    "qunit-parameterize": "latest",
+    "qunitjs": "latest",
     "ts-node": "latest",
-    "typescript": "latest",
-    "qunit-parameterize": "latest"
+    "typescript": "latest"
   },
   "scripts": {
     "test": "mocha --opts mocha.opts",
