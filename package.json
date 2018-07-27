@@ -8,19 +8,36 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
+    "@types/jest": "^23.3.1",
     "@types/mocha": "^5.2.4",
     "@types/node": "^10.5.2",
     "chai": "latest",
+    "jest": "^23.4.1",
     "jquery": "latest",
     "mocha": "latest",
     "qunit": "latest",
     "qunit-parameterize": "latest",
     "qunitjs": "latest",
+    "ts-jest": "^23.0.1",
     "ts-node": "latest",
     "typescript": "latest"
   },
   "scripts": {
     "test": "mocha --opts mocha.opts",
     "postinstall": "typings install"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
