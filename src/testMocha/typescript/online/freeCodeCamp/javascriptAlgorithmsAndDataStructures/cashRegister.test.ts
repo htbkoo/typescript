@@ -13,7 +13,6 @@ describe("cashRegister", function () {
         chai.expect(actual).to.be.an("object");
     });
 
-
     [
         {
             input: {
