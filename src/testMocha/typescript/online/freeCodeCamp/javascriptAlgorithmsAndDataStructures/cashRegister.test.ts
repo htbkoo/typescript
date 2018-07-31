@@ -1,6 +1,6 @@
 import * as chai from "chai";
 
-import {checkCashRegister} from "../../../../../main/typescript/online/freeCodeCamp/javascriptAlgorithmsAndDataStructures/cashRegister";
+import {checkCashRegister,} from "../../../../../main/typescript/online/freeCodeCamp/javascriptAlgorithmsAndDataStructures/cashRegister";
 
 describe("cashRegister", function () {
 
@@ -61,13 +61,13 @@ describe("cashRegister", function () {
     ].forEach(({input, expected}) =>
         it(`checkCashRegister(${JSON.stringify(input)}) should return ${JSON.stringify(expected)}.`, function () {
             // given
-            const {price, cash, cid} = input;
+            const {price, cash, cid}: { price: number, cash: number, cid: any } = input;
 
             // when
             let actual = checkCashRegister(price, cash, cid);
 
             // then
-            chai.expect(actual).to.equal(expected);
+            chai.expect(actual).to.deep.equal(expected);
         })
     );
 });
