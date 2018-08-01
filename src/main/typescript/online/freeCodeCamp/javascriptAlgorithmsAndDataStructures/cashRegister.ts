@@ -16,18 +16,6 @@ const AMOUNTS = {
 };
 const MULTIPLIER = 100;
 
-const ORIGINAL_AMOUNTS = {
-    PENNY: 0.01,
-    NICKEL: 0.05,
-    DIME: 0.1,
-    QUARTER: 0.25,
-    ONE: 1,
-    FIVE: 5,
-    TEN: 10,
-    TWENTY: 20,
-    "ONE HUNDRED": 100,
-};
-
 const SORT_AMOUNT_KEYS = Object.keys(AMOUNTS).sort((a, b) => AMOUNTS[a] - AMOUNTS[b]);
 
 const responseFactories = {
@@ -107,6 +95,18 @@ function computeChangesTable(changeAvailable, requiredChange, coinCounts: Readon
     return changes;
 }
 
+const ORIGINAL_AMOUNTS = {
+    PENNY: 0.01,
+    NICKEL: 0.05,
+    DIME: 0.1,
+    QUARTER: 0.25,
+    ONE: 1,
+    FIVE: 5,
+    TEN: 10,
+    TWENTY: 20,
+    "ONE HUNDRED": 100,
+};
+
 function createResponse(changes, requiredChange) {
     if (requiredChange in changes) {
         let list = changes[requiredChange];
@@ -128,4 +128,4 @@ function createResponse(changes, requiredChange) {
 // ["TWENTY", 60],
 // ["ONE HUNDRED", 100]]
 
-export {checkCashRegister};
+export default checkCashRegister;
