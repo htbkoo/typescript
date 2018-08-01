@@ -1,3 +1,6 @@
+export type cidType = ReadonlyArray<[CoinNames, number]>;
+type CoinNames = keyof typeof AMOUNTS;
+
 // Less generic and requires code changes
 // but make our lives much easier by sticking to int
 const AMOUNTS = {
@@ -39,7 +42,6 @@ const statusFactories = {
     },
 };
 
-export type cidType = ReadonlyArray<[string, number]>;
 
 function normalize(price) {
     return MULTIPLIER * price;
@@ -54,7 +56,7 @@ function checkCashRegister(price, cash, cid: cidType) {
         return statusFactories.CLOSED(cid);
     }
 
-    let coinCounts: Readonly<{ [k: string]: number }> = cid.reduce((prev, [coinName, totalAmount]) => {
+    let coinCounts: Readonly<{ [k in CoinNames]?: number }> = cid.reduce((prev, [coinName, totalAmount]) => {
         prev[coinName] = Math.round(normalize(totalAmount) / AMOUNTS[coinName]);
         return prev;
     }, {});
