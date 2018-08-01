@@ -31,17 +31,17 @@ const responseFactories = {
 };
 
 function checkCashRegister(price, cash, cid: cidType) {
-    let requiredChange = normalize(cash) - normalize(price);
-    let changeAvailable = cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
+    let changeAmountRequired = normalize(cash) - normalize(price);
+    let changeAmountAvailable = cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
 
-    if (changeAvailable === requiredChange) {
+    if (changeAmountAvailable === changeAmountRequired) {
         return responseFactories.CLOSED(cid);
     }
     let coinCounts = getCoinCounts(cid);
-    let changes = computeChangesTable(changeAvailable, requiredChange, coinCounts);
+    let changes = computeChangesTable(changeAmountAvailable, changeAmountRequired, coinCounts);
 
     // Here is your change, ma'am.
-    return createResponse(changes, requiredChange);
+    return createResponse(changes, changeAmountRequired);
 }
 
 function normalize(price) {
