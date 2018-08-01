@@ -53,11 +53,11 @@ function sumChangeAmount(cid: cidType) {
     return cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
 }
 
-function computeChangesTable(changeAvailable, requiredChange, cid: cidType) {
+function computeChangesTable(available, required, cid: cidType) {
     let step = NORMALIZED_AMOUNTS[SORT_AMOUNT_KEYS[0]];
     let coinCounts: CoinCountsType = getCoinCounts(cid);
     let changes = {0: {}};
-    for (let i = step; (i <= (changeAvailable + step)) && (i <= (requiredChange + step)); i += step) {
+    for (let i = step; (i <= (available + step)) && (i <= (required + step)); i += step) {
         let possibleConfig = SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
             // TODO: may optimize by terminating the loop earlier
             let beforeCoinAmount = (i - NORMALIZED_AMOUNTS[key]);
