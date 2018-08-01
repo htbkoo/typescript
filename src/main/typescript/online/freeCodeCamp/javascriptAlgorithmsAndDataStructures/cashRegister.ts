@@ -32,11 +32,12 @@ const responseFactories = {
 
 function checkCashRegister(price, cash, cid: cidType) {
     let changeAmountRequired = normalize(cash) - normalize(price);
-    let changeAmountAvailable = cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
+    let changeAmountAvailable = sumChangeAmount(cid);
 
     if (changeAmountAvailable === changeAmountRequired) {
         return responseFactories.CLOSED(cid);
     }
+
     let changes = computeChangesTable(changeAmountAvailable, changeAmountRequired, cid);
 
     // Here is your change, ma'am.
@@ -45,6 +46,10 @@ function checkCashRegister(price, cash, cid: cidType) {
 
 function normalize(price) {
     return MULTIPLIER * price;
+}
+
+function sumChangeAmount(cid: cidType) {
+    return cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
 }
 
 function computeChangesTable(changeAvailable, requiredChange, cid: cidType) {
