@@ -59,7 +59,7 @@ function computeChangesTable(available, required, cid: cidType) {
     let changes = {0: {}};
 
     for (let targetAmount = step; (targetAmount <= (available + step)) && (targetAmount <= (required + step)); targetAmount += step) {
-        let possibleConfig = tryComputeBestConfig(targetAmount, changes, coinCounts);
+        let possibleConfig = getBestConfigIfPossible(targetAmount, changes, coinCounts);
         if (possibleConfig) {
             changes[targetAmount] = possibleConfig;
         }
@@ -68,30 +68,31 @@ function computeChangesTable(available, required, cid: cidType) {
     return changes;
 }
 
-function tryComputeBestConfig(targetAmount, changes, coinCounts: CoinCountsType) {
-    return SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
+function getBestConfigIfPossible(targetAmount, changes, coinCounts: CoinCountsType) {
+    return SORT_AMOUNT_KEYS.reduce((prevConfig: any, key) => {
         // TODO: may optimize by terminating the loop earlier
         let amountBeforeCoin = (targetAmount - NORMALIZED_AMOUNTS[key]);
         if (amountBeforeCoin in changes) {
             let coinCountBeforeCoin = (key in changes[amountBeforeCoin]) ? changes[amountBeforeCoin][key] : 0;
             let coinCount = 1 + coinCountBeforeCoin;
 
-            if (coinCount <= coinCounts[key]) {
+            let hasEnoughCoin = coinCount <= coinCounts[key];
+            if (hasEnoughCoin) {
                 let newConfig = {
                     ...changes[amountBeforeCoin],
                     [key]: coinCount
                 };
 
-                if (prev) {
-                    let isNewConfigBetter = getTotalCount(newConfig) < getTotalCount(prev);
-                    return isNewConfigBetter ? newConfig : prev;
+                if (prevConfig) {
+                    let isNewConfigBetter = getTotalCount(newConfig) < getTotalCount(prevConfig);
+                    return isNewConfigBetter ? newConfig : prevConfig;
                 } else {
                     return newConfig;
                 }
             }
         }
 
-        return prev;
+        return prevConfig;
     }, undefined);
 }
 
