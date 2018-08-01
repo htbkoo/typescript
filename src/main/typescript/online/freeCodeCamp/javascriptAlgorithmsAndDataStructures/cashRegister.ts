@@ -43,9 +43,9 @@ export type cidType = ReadonlyArray<[string, number]>;
 
 function checkCashRegister(price, cash, cid: cidType) {
     let step = AMOUNTS[SORT_AMOUNT_KEYS[0]];
-    let changeAmount = MULTIPLIER * cash - MULTIPLIER * price;
-    let max = cid.reduce((prev, curr) => prev + MULTIPLIER * curr[1], 0);
-    if (max === changeAmount) {
+    let requiredChange = MULTIPLIER * cash - MULTIPLIER * price;
+    let changeAvailable = cid.reduce((prev, curr) => prev + MULTIPLIER * curr[1], 0);
+    if (changeAvailable === requiredChange) {
         return statusFactories.CLOSED(cid);
     }
 
@@ -58,7 +58,7 @@ function checkCashRegister(price, cash, cid: cidType) {
     }, {});
 
     let changes = {0: {}};
-    for (let i = step; (i <= (max + step)) && (i <= (changeAmount + step)); i += step) {
+    for (let i = step; (i <= (changeAvailable + step)) && (i <= (requiredChange + step)); i += step) {
         let possibleConfig = SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
             // TODO: may optimize by terminating the loop earlier
             let beforeCoinAmount = (i - AMOUNTS[key]);
@@ -92,8 +92,8 @@ function checkCashRegister(price, cash, cid: cidType) {
     }
 
     // Here is your change, ma'am.
-    if (changeAmount in changes) {
-        let list = changes[changeAmount];
+    if (requiredChange in changes) {
+        let list = changes[requiredChange];
         let openChange = SORT_AMOUNT_KEYS.slice().reverse().filter(key => key in list).map(key => [key, list[key] * ORIGINAL_AMOUNTS[key]]);
         return statusFactories.OPEN(openChange);
     } else {
