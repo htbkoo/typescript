@@ -42,13 +42,7 @@ const responseFactories = {
     },
 };
 
-
-function normalize(price) {
-    return MULTIPLIER * price;
-}
-
 function checkCashRegister(price, cash, cid: cidType) {
-    let step = AMOUNTS[SORT_AMOUNT_KEYS[0]];
     let requiredChange = normalize(cash) - normalize(price);
     let changeAvailable = cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
 
@@ -60,7 +54,19 @@ function checkCashRegister(price, cash, cid: cidType) {
         prev[coinName] = Math.round(normalize(totalAmount) / AMOUNTS[coinName]);
         return prev;
     }, {});
+    let changes = computeChangesTable(changeAvailable, requiredChange, coinCounts);
 
+    // Here is your change, ma'am.
+    return createResponse(changes, requiredChange);
+}
+
+
+function normalize(price) {
+    return MULTIPLIER * price;
+}
+
+function computeChangesTable(changeAvailable, requiredChange, coinCounts: Readonly<{ [k in CoinNames]?: number }>) {
+    let step = AMOUNTS[SORT_AMOUNT_KEYS[0]];
     let changes = {0: {}};
     for (let i = step; (i <= (changeAvailable + step)) && (i <= (requiredChange + step)); i += step) {
         let possibleConfig = SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
@@ -98,9 +104,7 @@ function checkCashRegister(price, cash, cid: cidType) {
             changes[i] = possibleConfig;
         }
     }
-
-    // Here is your change, ma'am.
-    return createResponse(changes, requiredChange);
+    return changes;
 }
 
 function createResponse(changes, requiredChange) {
