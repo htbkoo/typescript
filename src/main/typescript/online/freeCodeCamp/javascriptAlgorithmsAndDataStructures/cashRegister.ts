@@ -41,18 +41,21 @@ const statusFactories = {
 
 export type cidType = ReadonlyArray<[string, number]>;
 
+function normalize(price) {
+    return MULTIPLIER * price;
+}
+
 function checkCashRegister(price, cash, cid: cidType) {
     let step = AMOUNTS[SORT_AMOUNT_KEYS[0]];
-    let requiredChange = MULTIPLIER * cash - MULTIPLIER * price;
-    let changeAvailable = cid.reduce((prev, curr) => prev + MULTIPLIER * curr[1], 0);
+    let requiredChange = normalize(cash) - normalize(price);
+    let changeAvailable = cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
     if (changeAvailable === requiredChange) {
         return statusFactories.CLOSED(cid);
     }
 
-    let cidWithCount: Readonly<{ [k: string]: { amount: number, count: number } }> = cid.reduce((prev, [key, totalAmount]) => {
-        prev[key] = {
-            amount: totalAmount,
-            count: Math.round(totalAmount * MULTIPLIER / AMOUNTS[key])
+    let cidWithCount: Readonly<{ [k: string]: { count: number } }> = cid.reduce((prev, [coinName, totalAmount]) => {
+        prev[coinName] = {
+            count: Math.round(normalize(totalAmount) / AMOUNTS[coinName])
         };
         return prev;
     }, {});
