@@ -88,6 +88,10 @@ function checkCashRegister(price, cash, cid: cidType) {
             }
 
             return prev;
+
+            function getTotalCount(config): number {
+                return Object.keys(config).reduce((prev, curr) => prev + config[curr], 0);
+            }
         }, undefined);
 
         if (possibleConfig) {
@@ -102,12 +106,6 @@ function checkCashRegister(price, cash, cid: cidType) {
         return statusFactories.OPEN(openChange);
     } else {
         return statusFactories.INSUFFICIENT_FUNDS();
-    }
-    // let change = [];
-    // return change;
-
-    function getTotalCount(config): number {
-        return Object.keys(config).reduce((prev, curr) => prev + config[curr], 0);
     }
 }
 
