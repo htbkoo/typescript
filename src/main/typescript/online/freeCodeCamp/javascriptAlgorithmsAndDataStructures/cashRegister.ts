@@ -54,10 +54,8 @@ function checkCashRegister(price, cash, cid: cidType) {
         return statusFactories.CLOSED(cid);
     }
 
-    let coinCounts: Readonly<{ [k: string]: { count: number } }> = cid.reduce((prev, [coinName, totalAmount]) => {
-        prev[coinName] = {
-            count: Math.round(normalize(totalAmount) / AMOUNTS[coinName])
-        };
+    let coinCounts: Readonly<{ [k: string]: number }> = cid.reduce((prev, [coinName, totalAmount]) => {
+        prev[coinName] = Math.round(normalize(totalAmount) / AMOUNTS[coinName]);
         return prev;
     }, {});
 
@@ -69,7 +67,7 @@ function checkCashRegister(price, cash, cid: cidType) {
             if (beforeCoinAmount in changes) {
                 let coinCount = 1 + ((key in changes[beforeCoinAmount]) ? changes[beforeCoinAmount][key] : 0);
 
-                if (coinCount <= coinCounts[key].count) {
+                if (coinCount <= coinCounts[key]) {
                     let newConfig = {
                         ...changes[beforeCoinAmount],
                         [key]: coinCount
