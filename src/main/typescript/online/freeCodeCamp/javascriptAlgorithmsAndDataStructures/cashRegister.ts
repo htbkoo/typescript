@@ -49,11 +49,12 @@ function checkCashRegister(price, cash, cid: cidType) {
     let step = AMOUNTS[SORT_AMOUNT_KEYS[0]];
     let requiredChange = normalize(cash) - normalize(price);
     let changeAvailable = cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
+
     if (changeAvailable === requiredChange) {
         return statusFactories.CLOSED(cid);
     }
 
-    let cidWithCount: Readonly<{ [k: string]: { count: number } }> = cid.reduce((prev, [coinName, totalAmount]) => {
+    let coinCounts: Readonly<{ [k: string]: { count: number } }> = cid.reduce((prev, [coinName, totalAmount]) => {
         prev[coinName] = {
             count: Math.round(normalize(totalAmount) / AMOUNTS[coinName])
         };
@@ -68,7 +69,7 @@ function checkCashRegister(price, cash, cid: cidType) {
             if (beforeCoinAmount in changes) {
                 let coinCount = 1 + ((key in changes[beforeCoinAmount]) ? changes[beforeCoinAmount][key] : 0);
 
-                if (coinCount <= cidWithCount[key].count) {
+                if (coinCount <= coinCounts[key].count) {
                     let newConfig = {
                         ...changes[beforeCoinAmount],
                         [key]: coinCount
