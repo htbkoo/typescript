@@ -2,7 +2,7 @@ export type cidType = ReadonlyArray<[CoinNames, number]>;
 type CoinNames = keyof typeof NORMALIZED_AMOUNTS;
 type CoinCountsType = Readonly<{ [k in CoinNames]?: number }>;
 
-// Less generic and requires code changes
+// Normalizing by multiplying 100 make it less generic and requires code changes if new coin types are needed
 // but make our lives much easier by sticking to int
 const NORMALIZED_AMOUNTS = {
     PENNY: 1,
