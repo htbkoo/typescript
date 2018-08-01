@@ -57,6 +57,7 @@ function computeChangesTable(available, required, cid: cidType) {
     let step = NORMALIZED_AMOUNTS[SORT_AMOUNT_KEYS[0]];
     let coinCounts: CoinCountsType = getCoinCounts(cid);
     let changes = {0: {}};
+
     for (let i = step; (i <= (available + step)) && (i <= (required + step)); i += step) {
         let possibleConfig = SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
             // TODO: may optimize by terminating the loop earlier
@@ -83,17 +84,18 @@ function computeChangesTable(available, required, cid: cidType) {
             }
 
             return prev;
-
-            function getTotalCount(config): number {
-                return Object.keys(config).reduce((prev, curr) => prev + config[curr], 0);
-            }
         }, undefined);
 
         if (possibleConfig) {
             changes[i] = possibleConfig;
         }
     }
+
     return changes;
+}
+
+function getTotalCount(config): number {
+    return Object.keys(config).reduce((prev, curr) => prev + config[curr], 0);
 }
 
 function getCoinCounts(cid: cidType): CoinCountsType {
