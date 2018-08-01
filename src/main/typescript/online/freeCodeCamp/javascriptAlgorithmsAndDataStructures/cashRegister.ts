@@ -30,7 +30,7 @@ const ORIGINAL_AMOUNTS = {
 
 const SORT_AMOUNT_KEYS = Object.keys(AMOUNTS).sort((a, b) => AMOUNTS[a] - AMOUNTS[b]);
 
-const statusFactories = {
+const responseFactories = {
     INSUFFICIENT_FUNDS() {
         return {status: "INSUFFICIENT_FUNDS", change: []};
     },
@@ -53,7 +53,7 @@ function checkCashRegister(price, cash, cid: cidType) {
     let changeAvailable = cid.reduce((prev, curr) => prev + normalize(curr[1]), 0);
 
     if (changeAvailable === requiredChange) {
-        return statusFactories.CLOSED(cid);
+        return responseFactories.CLOSED(cid);
     }
 
     let coinCounts: Readonly<{ [k in CoinNames]?: number }> = cid.reduce((prev, [coinName, totalAmount]) => {
@@ -107,9 +107,9 @@ function createResponse(changes, requiredChange) {
     if (requiredChange in changes) {
         let list = changes[requiredChange];
         let openChange = SORT_AMOUNT_KEYS.slice().reverse().filter(key => key in list).map(key => [key, list[key] * ORIGINAL_AMOUNTS[key]]);
-        return statusFactories.OPEN(openChange);
+        return responseFactories.OPEN(openChange);
     } else {
-        return statusFactories.INSUFFICIENT_FUNDS();
+        return responseFactories.INSUFFICIENT_FUNDS();
     }
 }
 
