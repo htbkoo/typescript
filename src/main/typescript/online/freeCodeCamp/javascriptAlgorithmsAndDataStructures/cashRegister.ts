@@ -58,27 +58,27 @@ function computeChangesTable(available, required, cid: cidType) {
     let coinCounts: CoinCountsType = getCoinCounts(cid);
     let changes = {0: {}};
 
-    for (let i = step; (i <= (available + step)) && (i <= (required + step)); i += step) {
-        let possibleConfig = tryComputeBestConfig(i, changes, coinCounts);
+    for (let targetAmount = step; (targetAmount <= (available + step)) && (targetAmount <= (required + step)); targetAmount += step) {
+        let possibleConfig = tryComputeBestConfig(targetAmount, changes, coinCounts);
         if (possibleConfig) {
-            changes[i] = possibleConfig;
+            changes[targetAmount] = possibleConfig;
         }
     }
 
     return changes;
 }
 
-function tryComputeBestConfig(i, changes, coinCounts: CoinCountsType) {
+function tryComputeBestConfig(targetAmount, changes, coinCounts: CoinCountsType) {
     return SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
         // TODO: may optimize by terminating the loop earlier
-        let beforeCoinAmount = (i - NORMALIZED_AMOUNTS[key]);
-        if (beforeCoinAmount in changes) {
-            let coinCountBeforeCoin = (key in changes[beforeCoinAmount]) ? changes[beforeCoinAmount][key] : 0;
+        let amountBeforeCoin = (targetAmount - NORMALIZED_AMOUNTS[key]);
+        if (amountBeforeCoin in changes) {
+            let coinCountBeforeCoin = (key in changes[amountBeforeCoin]) ? changes[amountBeforeCoin][key] : 0;
             let coinCount = 1 + coinCountBeforeCoin;
 
             if (coinCount <= coinCounts[key]) {
                 let newConfig = {
-                    ...changes[beforeCoinAmount],
+                    ...changes[amountBeforeCoin],
                     [key]: coinCount
                 };
 
