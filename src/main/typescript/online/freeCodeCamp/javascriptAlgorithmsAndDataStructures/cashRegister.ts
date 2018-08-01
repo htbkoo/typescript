@@ -100,6 +100,10 @@ function checkCashRegister(price, cash, cid: cidType) {
     }
 
     // Here is your change, ma'am.
+    return createResponse(changes, requiredChange);
+}
+
+function createResponse(changes, requiredChange) {
     if (requiredChange in changes) {
         let list = changes[requiredChange];
         let openChange = SORT_AMOUNT_KEYS.slice().reverse().filter(key => key in list).map(key => [key, list[key] * ORIGINAL_AMOUNTS[key]]);
