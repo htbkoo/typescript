@@ -37,8 +37,7 @@ function checkCashRegister(price, cash, cid: cidType) {
     if (changeAmountAvailable === changeAmountRequired) {
         return responseFactories.CLOSED(cid);
     }
-    let coinCounts = getCoinCounts(cid);
-    let changes = computeChangesTable(changeAmountAvailable, changeAmountRequired, coinCounts);
+    let changes = computeChangesTable(changeAmountAvailable, changeAmountRequired, cid);
 
     // Here is your change, ma'am.
     return createResponse(changes, changeAmountRequired);
@@ -48,15 +47,9 @@ function normalize(price) {
     return MULTIPLIER * price;
 }
 
-function getCoinCounts(cid: cidType): Readonly<{ [k in CoinNames]?: number }> {
-    return cid.reduce((prev, [coinName, totalAmount]) => {
-        prev[coinName] = Math.round(normalize(totalAmount) / NORMALIZED_AMOUNTS[coinName]);
-        return prev;
-    }, {});
-}
-
-function computeChangesTable(changeAvailable, requiredChange, coinCounts: Readonly<{ [k in CoinNames]?: number }>) {
+function computeChangesTable(changeAvailable, requiredChange, cid: cidType) {
     let step = NORMALIZED_AMOUNTS[SORT_AMOUNT_KEYS[0]];
+    let coinCounts: Readonly<{ [k in CoinNames]?: number }> = getCoinCounts(cid);
     let changes = {0: {}};
     for (let i = step; (i <= (changeAvailable + step)) && (i <= (requiredChange + step)); i += step) {
         let possibleConfig = SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
@@ -95,6 +88,13 @@ function computeChangesTable(changeAvailable, requiredChange, coinCounts: Readon
         }
     }
     return changes;
+}
+
+function getCoinCounts(cid: cidType): Readonly<{ [k in CoinNames]?: number }> {
+    return cid.reduce((prev, [coinName, totalAmount]) => {
+        prev[coinName] = Math.round(normalize(totalAmount) / NORMALIZED_AMOUNTS[coinName]);
+        return prev;
+    }, {});
 }
 
 const AMOUNTS = {
