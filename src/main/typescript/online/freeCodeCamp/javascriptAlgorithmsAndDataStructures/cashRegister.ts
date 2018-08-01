@@ -1,5 +1,6 @@
 export type cidType = ReadonlyArray<[CoinNames, number]>;
 type CoinNames = keyof typeof NORMALIZED_AMOUNTS;
+type CoinCountsType = Readonly<{ [k in CoinNames]?: number }>;
 
 // Less generic and requires code changes
 // but make our lives much easier by sticking to int
@@ -54,7 +55,7 @@ function sumChangeAmount(cid: cidType) {
 
 function computeChangesTable(changeAvailable, requiredChange, cid: cidType) {
     let step = NORMALIZED_AMOUNTS[SORT_AMOUNT_KEYS[0]];
-    let coinCounts: Readonly<{ [k in CoinNames]?: number }> = getCoinCounts(cid);
+    let coinCounts: CoinCountsType = getCoinCounts(cid);
     let changes = {0: {}};
     for (let i = step; (i <= (changeAvailable + step)) && (i <= (requiredChange + step)); i += step) {
         let possibleConfig = SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
@@ -95,7 +96,7 @@ function computeChangesTable(changeAvailable, requiredChange, cid: cidType) {
     return changes;
 }
 
-function getCoinCounts(cid: cidType): Readonly<{ [k in CoinNames]?: number }> {
+function getCoinCounts(cid: cidType): CoinCountsType {
     return cid.reduce((prev, [coinName, totalAmount]) => {
         prev[coinName] = Math.round(normalize(totalAmount) / NORMALIZED_AMOUNTS[coinName]);
         return prev;
