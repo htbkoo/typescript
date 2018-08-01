@@ -115,10 +115,10 @@ const AMOUNTS = {
     "ONE HUNDRED": 100,
 };
 
-function createResponse(changes, requiredChange) {
-    if (requiredChange in changes) {
-        let list = changes[requiredChange];
-        let openChange = SORT_AMOUNT_KEYS.slice().reverse().filter(key => key in list).map(key => [key, list[key] * AMOUNTS[key]]);
+function createResponse(changes, changeAmountRequired) {
+    if (changeAmountRequired in changes) {
+        let config = changes[changeAmountRequired];
+        let openChange = SORT_AMOUNT_KEYS.slice().reverse().filter(key => key in config).map(key => [key, config[key] * AMOUNTS[key]]);
         return responseFactories.OPEN(openChange);
     } else {
         return responseFactories.INSUFFICIENT_FUNDS();
