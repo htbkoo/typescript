@@ -1,6 +1,7 @@
 import * as chai from "chai";
 
-import checkCashRegister from "../../../../../main/typescript/online/freeCodeCamp/javascriptAlgorithmsAndDataStructures/cashRegister";
+import checkCashRegister
+    from "../../../../../main/typescript/online/freeCodeCamp/javascriptAlgorithmsAndDataStructures/cashRegister";
 
 describe("cashRegister", function () {
 

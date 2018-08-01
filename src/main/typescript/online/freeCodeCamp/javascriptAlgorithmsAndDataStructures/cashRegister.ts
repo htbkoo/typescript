@@ -37,20 +37,22 @@ function checkCashRegister(price, cash, cid: cidType) {
     if (changeAvailable === requiredChange) {
         return responseFactories.CLOSED(cid);
     }
-
-    let coinCounts: Readonly<{ [k in CoinNames]?: number }> = cid.reduce((prev, [coinName, totalAmount]) => {
-        prev[coinName] = Math.round(normalize(totalAmount) / AMOUNTS[coinName]);
-        return prev;
-    }, {});
+    let coinCounts = getCoinCounts(cid);
     let changes = computeChangesTable(changeAvailable, requiredChange, coinCounts);
 
     // Here is your change, ma'am.
     return createResponse(changes, requiredChange);
 }
 
-
 function normalize(price) {
     return MULTIPLIER * price;
+}
+
+function getCoinCounts(cid: cidType): Readonly<{ [k in CoinNames]?: number }> {
+    return cid.reduce((prev, [coinName, totalAmount]) => {
+        prev[coinName] = Math.round(normalize(totalAmount) / AMOUNTS[coinName]);
+        return prev;
+    }, {});
 }
 
 function computeChangesTable(changeAvailable, requiredChange, coinCounts: Readonly<{ [k in CoinNames]?: number }>) {
