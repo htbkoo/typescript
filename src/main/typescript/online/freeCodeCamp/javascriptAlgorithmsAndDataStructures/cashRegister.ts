@@ -59,39 +59,40 @@ function computeChangesTable(available, required, cid: cidType) {
     let changes = {0: {}};
 
     for (let i = step; (i <= (available + step)) && (i <= (required + step)); i += step) {
-        let possibleConfig = SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
-            // TODO: may optimize by terminating the loop earlier
-            let beforeCoinAmount = (i - NORMALIZED_AMOUNTS[key]);
-            if (beforeCoinAmount in changes) {
-                let coinCount = 1 + ((key in changes[beforeCoinAmount]) ? changes[beforeCoinAmount][key] : 0);
-
-                if (coinCount <= coinCounts[key]) {
-                    let newConfig = {
-                        ...changes[beforeCoinAmount],
-                        [key]: coinCount
-                    };
-
-                    if (prev) {
-                        if (getTotalCount(newConfig) < getTotalCount(prev)) {
-                            return newConfig
-                        } else {
-                            return prev;
-                        }
-                    } else {
-                        return newConfig;
-                    }
-                }
-            }
-
-            return prev;
-        }, undefined);
-
+        let possibleConfig = tryComputeBestConfig(i, changes, coinCounts);
         if (possibleConfig) {
             changes[i] = possibleConfig;
         }
     }
 
     return changes;
+}
+
+function tryComputeBestConfig(i, changes, coinCounts: CoinCountsType) {
+    return SORT_AMOUNT_KEYS.reduce((prev: any, key) => {
+        // TODO: may optimize by terminating the loop earlier
+        let beforeCoinAmount = (i - NORMALIZED_AMOUNTS[key]);
+        if (beforeCoinAmount in changes) {
+            let coinCountBeforeCoin = (key in changes[beforeCoinAmount]) ? changes[beforeCoinAmount][key] : 0;
+            let coinCount = 1 + coinCountBeforeCoin;
+
+            if (coinCount <= coinCounts[key]) {
+                let newConfig = {
+                    ...changes[beforeCoinAmount],
+                    [key]: coinCount
+                };
+
+                if (prev) {
+                    let isNewConfigBetter = getTotalCount(newConfig) < getTotalCount(prev);
+                    return isNewConfigBetter ? newConfig : prev;
+                } else {
+                    return newConfig;
+                }
+            }
+        }
+
+        return prev;
+    }, undefined);
 }
 
 function getTotalCount(config): number {
