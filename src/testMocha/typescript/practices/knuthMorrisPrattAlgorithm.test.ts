@@ -11,6 +11,7 @@ describe("knuthMorrisPrattAlgorithm", function () {
             {s: "abc", sub: "c", expected: 2},
             {s: "banananobano", sub: "nano", expected: 4},
             {s: "banananobano", sub: "bano", expected: 8},
+            {s: "ABC ABCDAB ABCDABCDABDE", sub: "ABCDABD", expected: 8},
         ].forEach(({s, sub, expected}) =>
             it(`kmp("${s}", "${sub}")=${expected}`, function () {
                 // given
