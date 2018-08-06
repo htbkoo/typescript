@@ -16,7 +16,7 @@ describe("387. First Unique Character in a String", function () {
                     let actual = firstUniqChar(s);
 
                     // then
-                    chai.expect(expected).to.equal(actual);
+                    chai.expect(actual).to.equal(expected);
                 })
             );
         }
