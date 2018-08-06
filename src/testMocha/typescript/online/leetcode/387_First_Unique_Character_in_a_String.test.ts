@@ -9,6 +9,7 @@ describe("387. First Unique Character in a String", function () {
                 {s: "loveleetcode", expected: 2},
                 {s: "aabb", expected: -1},
                 {s: "", expected: -1},
+                {s: "cdabcaabb", expected: 1},
             ].forEach(({s, expected}) =>
                 it(`firstUniqChar(${s})=${expected}`, function () {
                     // given
