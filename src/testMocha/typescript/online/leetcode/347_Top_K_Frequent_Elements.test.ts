@@ -14,7 +14,7 @@ describe("347. Top K Frequent Elements", function () {
                 let actual = topKFrequent(nums, k);
 
                 // then
-                chai.expect(actual).to.equal(output);
+                chai.expect(actual).to.deep.equal(output);
             })
         );
     });
