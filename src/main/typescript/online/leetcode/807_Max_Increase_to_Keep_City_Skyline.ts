@@ -43,7 +43,6 @@ var maxIncreaseKeepingSkyline = function (grid: number[][]): number {
     let columnMaxs: number[] = grid.reduce((prev, row) => row.map((cell, i) => Math.max(cell, prev[i])), grid[0]);
 
     const width = grid[0].length, height = grid.length;
-    // let maxs: number[][];
     let max: number = 0;
     for (let j = 0; j < height; ++j) {
         for (let i = 0; i < width; ++i) {
