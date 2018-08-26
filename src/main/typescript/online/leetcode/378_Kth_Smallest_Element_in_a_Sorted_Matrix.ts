@@ -122,4 +122,5 @@ export class Heap {
         throw new Error(`numChildren: ${numChildren}, unrecognized`)
     }
 }
+
 export default kthSmallest;
