@@ -1,5 +1,5 @@
 {
-  "name": "hey-typeScript-hg",
+  "name": "hey-typescript-hg",
   "version": "0.0.2",
   "private": true,
   "dependencies": {
@@ -12,6 +12,7 @@
     "@types/node": "^10.5.2",
     "chai": "latest",
     "jquery": "latest",
+    "lodash": "^4.17.10",
     "mocha": "latest",
     "qunit": "latest",
     "qunit-parameterize": "latest",
