@@ -17,7 +17,7 @@ describe("378. Kth Smallest Element in a Sorted Matrix", function () {
             {
                 matrix: [[1, 1, 1], [1, 1, 2], [1, 1, 3]],
                 k: 8,
-                output: 13
+                output: 2
             },
         ].forEach(({matrix, k, output}) =>
             it(`topKFrequent(${JSON.stringify(matrix)}, ${k})=${output}`, function () {
