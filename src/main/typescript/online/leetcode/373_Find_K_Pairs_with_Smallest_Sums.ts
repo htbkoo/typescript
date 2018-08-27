@@ -46,7 +46,7 @@ Special thanks to @elmirap and @StefanPochmann for adding this problem and creat
  * @return {number[][]}
  */
 var kSmallestPairs = function (nums1: number[], nums2: number[], k: number): number[][] {
-    const heap = nums1.reduce((heap, u) => nums2.reduce((h, v) => h.push(pair(u, v)), heap), new KSmallestPairsHeap());
+    const heap: KSmallestPairsHeap = nums1.reduce((heap, u) => nums2.reduce((h, v) => h.push(pair(u, v)), heap), new KSmallestPairsHeap());
 
     const answer = [];
     while (!heap.isEmpty() && k > 0) {
