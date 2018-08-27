@@ -48,8 +48,6 @@ var swimInWater = function (grid: number[][]): number {
     const added: boolean[][] = Array(n).fill(0).map(() => Array(n).fill(false));
     const heap = new SwimInWaterHeap();
 
-    // let x = 0;
-    // let y = 0;
     let min = grid[0][0];
 
     add(0, 0);
