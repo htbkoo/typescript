@@ -46,35 +46,16 @@ Special thanks to @elmirap and @StefanPochmann for adding this problem and creat
  * @return {number[][]}
  */
 var kSmallestPairs = function (nums1: number[], nums2: number[], k: number): number[][] {
+    const heap: KSmallestPairsHeap = nums1.reduce((heap, u) => nums2.reduce((h, v) => h.push(pair(u, v)), heap), new KSmallestPairsHeap());
+
     const answer = [];
-
-    const heap: KSmallestPairsHeap = new KSmallestPairsHeap();
-    const added = nums1.map(() => nums2.map(() => false));
-
-    addIfValid(0, 0);
     while (!heap.isEmpty() && k > 0) {
-        let pairWithSum = heap.pop();
-        addIfValid(pairWithSum.u.index + 1, pairWithSum.v.index);
-        addIfValid(pairWithSum.u.index, pairWithSum.v.index + 1);
-
-        answer.push(pairWithSum.asPair());
+        answer.push(heap.pop());
         --k;
     }
     return answer;
 
-    function addIfValid(i, j) {
-        const isInRange = nums1.length > i && nums2.length > j && i >= 0 && j >= 0;
-        if (isInRange && !added[i][j]) {
-            heap.push(pair(point(i, nums1[i]), point(j, nums2[j])));
-            added[i][j] = true;
-        }
-    }
-
-    function point(index, value): Point {
-        return new Point(index, value);
-    }
-
-    function pair(u: Point, v: Point): PairWithSum {
+    function pair(u, v): PairWithSum {
         return new PairWithSum(u, v);
     }
 };
@@ -88,14 +69,14 @@ export class KSmallestPairsHeap {
         return this;
     }
 
-    public pop(): PairWithSum {
+    public pop(): Pair {
         const size = this._size();
         if (size === 0) {
             throw new Error("heap is empty");
         } else if (size === 1) {
-            return this._pairs.pop();
+            return this._pairs.pop().asPair();
         } else {
-            const pair = this._pairs[0];
+            const pair = this._pairs[0].asPair();
             this._pairs[0] = this._pairs.pop();
             this._pushDown(0);
             return pair;
@@ -166,29 +147,19 @@ export class KSmallestPairsHeap {
 
 type Pair = [number, number];
 
-class Point {
-    public readonly index: number;
-    public readonly value: number;
-
-    constructor(index: number, value: number) {
-        this.index = index;
-        this.value = value;
-    }
-}
-
 class PairWithSum {
-    public readonly u: Point;
-    public readonly v: Point;
+    public readonly u: number;
+    public readonly v: number;
     public readonly sum: number;
 
-    constructor(u: Point, v: Point) {
+    constructor(u: number, v: number) {
         this.u = u;
         this.v = v;
-        this.sum = u.value + v.value;
+        this.sum = u + v;
     }
 
     public asPair(): Pair {
-        return [this.u.value, this.v.value];
+        return [this.u, this.v];
     }
 }
 
