@@ -12,7 +12,7 @@ describe("208. Implement Trie (Prefix Tree)", function () {
                 output: [undefined, true, false, true, undefined, true]
             },
         ].forEach((testCase) =>
-            it(`KthLargest(${JSON.stringify(testCase)}`, function () {
+            it(`trie(${JSON.stringify(testCase)}`, function () {
                 // given
                 const {command, args, output} = testCase;
 
