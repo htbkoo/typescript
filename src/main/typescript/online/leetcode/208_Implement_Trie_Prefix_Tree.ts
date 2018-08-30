@@ -40,19 +40,6 @@ class TrieNode {
     }
 
     public push(str: string) {
-        this._push(str.split(""));
-    }
-
-    public searchFor(str: string): TrieNode {
-        return this._searchFor(str.split(""));
-    }
-
-    public hasStartWith(str: string): boolean {
-        let node = this.searchFor(str);
-        return node.isEnd || node._hasChildren;
-    }
-
-    private _push(str: string[]) {
         const length = str.length;
         let current: TrieNode = this;
         for (let i = 0; i < length; ++i) {
@@ -66,7 +53,7 @@ class TrieNode {
         current._isEnd = true;
     }
 
-    private _searchFor(str: string[]): TrieNode {
+    public searchFor(str: string): TrieNode {
         const length = str.length;
         let current: TrieNode = this;
 
@@ -84,8 +71,13 @@ class TrieNode {
         return current;
     }
 
-    private static _getCh(str: string[], pos: number): number {
-        return str[pos].charCodeAt(0) - CHAR_CODE_A;
+    public hasStartWith(str: string): boolean {
+        let node = this.searchFor(str);
+        return node.isEnd || node._hasChildren;
+    }
+
+    private static _getCh(str: string, pos: number): number {
+        return str.charCodeAt(pos) - CHAR_CODE_A;
     }
 
     private _hasSpecificChildren(ch: number) {
