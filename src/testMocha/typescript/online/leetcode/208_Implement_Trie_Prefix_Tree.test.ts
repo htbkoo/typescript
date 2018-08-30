@@ -5,11 +5,15 @@ import Trie from "../../../../main/typescript/online/leetcode/208_Implement_Trie
 describe("208. Implement Trie (Prefix Tree)", function () {
     describe('should implement a trie with insert, search, and startsWith methods', function () {
         [
-
             {
                 command: ["insert", "search", "search", "startsWith", "insert", "search"],
                 args: [["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]],
                 output: [undefined, true, false, true, undefined, true]
+            },
+            {
+                command: ["search"],
+                args: [["a"]],
+                output: [false]
             },
         ].forEach((testCase) =>
             it(`trie(${JSON.stringify(testCase)}`, function () {

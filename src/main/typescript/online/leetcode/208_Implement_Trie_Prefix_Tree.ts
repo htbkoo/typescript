@@ -29,6 +29,7 @@ var Trie = function () {
 };
 
 class TrieNode {
+    private _isEnd: boolean = false;
     private readonly _children: { [ch: string]: TrieNode } = {};
 
     public push(str: string[]) {
@@ -38,28 +39,45 @@ class TrieNode {
                 this._children[firstCh] = new TrieNode();
             }
             this._children[firstCh].push(str.splice(1));
+        } else {
+            this._isEnd = true;
+        }
+    }
+
+    public get isEnd(): boolean {
+        return this._isEnd;
+    }
+
+    public searchFor(str: string[]): TrieNode {
+        if (str.length === 0) {
+            return this;
+        } else {
+            let firstCh = TrieNode._getFirstCh(str);
+
+            if (firstCh in this._children) {
+                if (str.length > 1) {
+                    return this._children[firstCh].searchFor(str.splice(1));
+                } else {
+                    return this._children[firstCh];
+                }
+            } else {
+                return EMPTY_NODE;
+            }
         }
     }
 
     public hasStartWith(str: string[]): boolean {
-        let firstCh = TrieNode._getFirstCh(str);
-        if (str.length > 1) {
-            if (firstCh in this._children) {
-                return this._children[firstCh].hasStartWith(str.splice(1));
-            } else {
-                return false;
-            }
-        } else {
-            return (firstCh in this._children);
-        }
+        let node = this.searchFor(str);
+        let nodeHasChildren = Object.keys(node._children).length > 0;
+        return node.isEnd || nodeHasChildren;
     }
 
     private static _getFirstCh(str: string[]) {
         return str[0];
     }
-
-
 }
+
+const EMPTY_NODE = new TrieNode();
 
 /**
  * Inserts a word into the trie.
@@ -77,7 +95,7 @@ Trie.prototype.insert = function (word) {
  * @return {boolean}
  */
 Trie.prototype.search = function (word) {
-    return !!this._dictionary[word];
+    return this._root.searchFor(word.split("")).isEnd;
 };
 
 /**
