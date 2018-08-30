@@ -11,6 +11,11 @@ describe("208. Implement Trie (Prefix Tree)", function () {
                 output: [undefined, true, false, true, undefined, true]
             },
             {
+                command: ["insert", "search", "search", "startsWith", "startsWith", "insert", "search"],
+                args: [["apple"], ["apple"], ["app"], ["app"], ["apple"], ["app"], ["app"]],
+                output: [undefined, true, false, true, true, undefined, true]
+            },
+            {
                 command: ["search"],
                 args: [["a"]],
                 output: [false]

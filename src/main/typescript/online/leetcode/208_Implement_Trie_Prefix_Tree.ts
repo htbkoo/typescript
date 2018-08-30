@@ -53,42 +53,43 @@ class TrieNode {
     }
 
     private _push(str: string[]) {
-        if (str.length > 0) {
-            this._hasChildren = true;
-            let firstCh = TrieNode._getFirstCh(str);
-            if (!this._hasSpecificChildren(firstCh)) {
-                this._children[firstCh] = new TrieNode();
+        const length = str.length;
+        let current: TrieNode = this;
+        for (let i = 0; i < length; ++i) {
+            let ch = TrieNode._getCh(str, i);
+            current._hasChildren = true;
+            if (!current._hasSpecificChildren(ch)) {
+                current._children[ch] = new TrieNode();
             }
-            this._children[firstCh]._push(str.splice(1));
-        } else {
-            this._isEnd = true;
+            current = current._children[ch];
         }
+        current._isEnd = true;
     }
 
     private _searchFor(str: string[]): TrieNode {
-        if (str.length === 0) {
-            return this;
-        } else {
-            let firstCh = TrieNode._getFirstCh(str);
+        const length = str.length;
+        let current: TrieNode = this;
 
-            if (this._hasSpecificChildren(firstCh)) {
-                if (str.length > 1) {
-                    return this._children[firstCh]._searchFor(str.splice(1));
-                } else {
-                    return this._children[firstCh];
-                }
-            } else {
+        if (length === 0) {
+            return current;
+        }
+
+        for (let i = 0; i < length; ++i) {
+            let ch = TrieNode._getCh(str, i);
+            if (!current._hasSpecificChildren(ch)) {
                 return EMPTY_NODE;
             }
+            current = current._children[ch];
         }
+        return current;
     }
 
-    private static _getFirstCh(str: string[]): number {
-        return str[0].charCodeAt(0) - CHAR_CODE_A;
+    private static _getCh(str: string[], pos: number): number {
+        return str[pos].charCodeAt(0) - CHAR_CODE_A;
     }
 
-    private _hasSpecificChildren(firstCh) {
-        return (typeof this._children[firstCh]) !== "undefined";
+    private _hasSpecificChildren(ch: number) {
+        return (typeof this._children[ch]) !== "undefined";
     }
 }
 
