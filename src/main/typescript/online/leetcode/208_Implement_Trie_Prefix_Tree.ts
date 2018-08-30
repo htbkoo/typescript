@@ -31,23 +31,37 @@ class TrieNode {
     private _isEnd: boolean = false;
     private readonly _children: { [ch: string]: TrieNode } = {};
 
-    public push(str: string[]) {
+    public get isEnd(): boolean {
+        return this._isEnd;
+    }
+
+    public push(str: string) {
+        this._push(str.split(""));
+    }
+
+    public searchFor(str: string): TrieNode {
+        return this._searchFor(str.split(""));
+    }
+
+    public hasStartWith(str: string): boolean {
+        let node = this.searchFor(str);
+        let nodeHasChildren = Object.keys(node._children).length > 0;
+        return node.isEnd || nodeHasChildren;
+    }
+
+    private _push(str: string[]) {
         if (str.length > 0) {
             let firstCh = TrieNode._getFirstCh(str);
             if (!(firstCh in this._children)) {
                 this._children[firstCh] = new TrieNode();
             }
-            this._children[firstCh].push(str.splice(1));
+            this._children[firstCh]._push(str.splice(1));
         } else {
             this._isEnd = true;
         }
     }
 
-    public get isEnd(): boolean {
-        return this._isEnd;
-    }
-
-    public searchFor(str: string[]): TrieNode {
+    private _searchFor(str: string[]): TrieNode {
         if (str.length === 0) {
             return this;
         } else {
@@ -55,7 +69,7 @@ class TrieNode {
 
             if (firstCh in this._children) {
                 if (str.length > 1) {
-                    return this._children[firstCh].searchFor(str.splice(1));
+                    return this._children[firstCh]._searchFor(str.splice(1));
                 } else {
                     return this._children[firstCh];
                 }
@@ -63,12 +77,6 @@ class TrieNode {
                 return EMPTY_NODE;
             }
         }
-    }
-
-    public hasStartWith(str: string[]): boolean {
-        let node = this.searchFor(str);
-        let nodeHasChildren = Object.keys(node._children).length > 0;
-        return node.isEnd || nodeHasChildren;
     }
 
     private static _getFirstCh(str: string[]) {
@@ -83,8 +91,8 @@ const EMPTY_NODE = new TrieNode();
  * @param {string} word
  * @return {void}
  */
-Trie.prototype.insert = function (word) {
-    this._root.push(word.split(""));
+Trie.prototype.insert = function (word: string): void {
+    this._root.push(word);
 };
 
 /**
@@ -92,8 +100,8 @@ Trie.prototype.insert = function (word) {
  * @param {string} word
  * @return {boolean}
  */
-Trie.prototype.search = function (word) {
-    return this._root.searchFor(word.split("")).isEnd;
+Trie.prototype.search = function (word: string): boolean {
+    return this._root.searchFor(word).isEnd;
 };
 
 /**
@@ -101,8 +109,8 @@ Trie.prototype.search = function (word) {
  * @param {string} prefix
  * @return {boolean}
  */
-Trie.prototype.startsWith = function (prefix) {
-    return this._root.hasStartWith(prefix.split(""));
+Trie.prototype.startsWith = function (prefix: string): boolean {
+    return this._root.hasStartWith(prefix);
 };
 
 /**
