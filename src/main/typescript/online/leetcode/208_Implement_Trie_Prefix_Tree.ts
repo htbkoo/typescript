@@ -27,9 +27,13 @@ var Trie = function () {
     this._root = new TrieNode();
 };
 
+const CHAR_CODE_A = 'a'.charCodeAt(0);
+
 class TrieNode {
+    private readonly _children: TrieNode[] = Array(26);
+
     private _isEnd: boolean = false;
-    private readonly _children: { [ch: string]: TrieNode } = {};
+    private _hasChildren: boolean = false;
 
     public get isEnd(): boolean {
         return this._isEnd;
@@ -45,14 +49,14 @@ class TrieNode {
 
     public hasStartWith(str: string): boolean {
         let node = this.searchFor(str);
-        let nodeHasChildren = Object.keys(node._children).length > 0;
-        return node.isEnd || nodeHasChildren;
+        return node.isEnd || node._hasChildren;
     }
 
     private _push(str: string[]) {
         if (str.length > 0) {
+            this._hasChildren = true;
             let firstCh = TrieNode._getFirstCh(str);
-            if (!(firstCh in this._children)) {
+            if (!this._hasSpecificChildren(firstCh)) {
                 this._children[firstCh] = new TrieNode();
             }
             this._children[firstCh]._push(str.splice(1));
@@ -67,7 +71,7 @@ class TrieNode {
         } else {
             let firstCh = TrieNode._getFirstCh(str);
 
-            if (firstCh in this._children) {
+            if (this._hasSpecificChildren(firstCh)) {
                 if (str.length > 1) {
                     return this._children[firstCh]._searchFor(str.splice(1));
                 } else {
@@ -79,8 +83,12 @@ class TrieNode {
         }
     }
 
-    private static _getFirstCh(str: string[]) {
-        return str[0];
+    private static _getFirstCh(str: string[]): number {
+        return str[0].charCodeAt(0) - CHAR_CODE_A;
+    }
+
+    private _hasSpecificChildren(firstCh) {
+        return (typeof this._children[firstCh]) !== "undefined";
     }
 }
 
