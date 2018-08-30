@@ -25,7 +25,6 @@ Note:
  */
 var Trie = function () {
     this._root = new TrieNode();
-    this._dictionary = {};
 };
 
 class TrieNode {
@@ -86,7 +85,6 @@ const EMPTY_NODE = new TrieNode();
  */
 Trie.prototype.insert = function (word) {
     this._root.push(word.split(""));
-    this._dictionary[word] = true;
 };
 
 /**
