@@ -3,8 +3,13 @@ import * as chai from "chai";
 import WordDictionary from "../../../../main/typescript/online/leetcode/211_Add_and_Search_Word_Data_structure_design";
 
 describe("211. Add and Search Word - Data structure design", function () {
-    describe('should implement a trie with insert, search, and startsWith methods', function () {
+    describe('should implement WordDictionary with addWord and search methods', function () {
         [
+            {
+                command: ["addWord", "addWord", "addWord", "search", "search", "search", "search", "search", "search"],
+                args: [["bad"], ["dad"], ["mad"], ["pad"], ["badd"], ["bad."], ["bad"], [".ad"], ["b.."]],
+                output: [undefined, undefined, undefined, false, false, false, true, true, true]
+            },
             {
                 command: ["addWord", "addWord", "addWord", "search", "search", "search", "search"],
                 args: [["bad"], ["dad"], ["mad"], ["pad"], ["bad"], [".ad"], ["b.."]],
