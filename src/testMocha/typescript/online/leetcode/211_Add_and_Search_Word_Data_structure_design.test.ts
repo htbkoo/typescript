@@ -6,14 +6,19 @@ describe("211. Add and Search Word - Data structure design", function () {
     describe('should implement WordDictionary with addWord and search methods', function () {
         [
             {
+                command: ["addWord", "addWord", "addWord", "addWord", "search", "search", "addWord", "search", "search", "search", "search", "search", "search"],
+                args: [["at"], ["and"], ["an"], ["add"], ["a"], [".at"], ["bat"], [".at"], ["an."], ["a.d."], ["b."], ["a.d"], ["."]],
+                output: [null, null, null, null, false, false, null, true, true, false, false, true, false]
+            },
+            {
                 command: ["addWord", "addWord", "addWord", "search", "search", "search", "search", "search", "search"],
                 args: [["bad"], ["dad"], ["mad"], ["pad"], ["badd"], ["bad."], ["bad"], [".ad"], ["b.."]],
-                output: [undefined, undefined, undefined, false, false, false, true, true, true]
+                output: [null, null, null, false, false, false, true, true, true]
             },
             {
                 command: ["addWord", "addWord", "addWord", "search", "search", "search", "search"],
                 args: [["bad"], ["dad"], ["mad"], ["pad"], ["bad"], [".ad"], ["b.."]],
-                output: [undefined, undefined, undefined, false, true, true, true]
+                output: [null, null, null, false, true, true, true]
             },
         ].forEach((testCase) =>
             it(`WordDictionary(${JSON.stringify(testCase)}`, function () {
@@ -26,7 +31,7 @@ describe("211. Add and Search Word - Data structure design", function () {
                 // then
                 output.forEach((expected, i) => {
                         let actual = workDictionary[command[i]].apply(workDictionary, args[i]);
-                        if (typeof expected !== "undefined") {
+                        if (expected !== null) {
                             chai.expect(actual).to.equal(expected, `wrong at position: ${i}`)
                         }
                     }

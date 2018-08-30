@@ -25,6 +25,7 @@ You may assume that all words are consist of lowercase letters a-z.
 
 class TrieNode {
     readonly _children: { [k: string]: TrieNode } = {};
+    isEnd: boolean = false;
 
     public hasChild(ch) {
         return ch in this._children;
@@ -54,6 +55,7 @@ WordDictionary.prototype.addWord = function (word: string): void {
         }
         current = current._children[ch];
     }
+    current.isEnd = true;
 };
 
 /**
@@ -86,7 +88,7 @@ WordDictionary.prototype.search = function (word: string): boolean {
         nextCharCandidates = [];
     }
 
-    return true;
+    return candidates.some(candidate => candidate.isEnd);
 };
 
 /**
