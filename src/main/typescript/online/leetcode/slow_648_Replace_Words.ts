@@ -56,9 +56,6 @@ class TrieNode {
         let current: TrieNode = this;
         for (let i = 0; i < length; ++i) {
             let ch = getCh(word, i);
-            if (current.isEnd) {
-                return this;
-            }
             if (!current._hasChild(ch)) {
                 current._children[ch] = new TrieNode();
             }
