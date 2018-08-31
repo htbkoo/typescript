@@ -34,10 +34,6 @@ var WordFilter = function (words: string[]) {
         this._prefixTrie.push(word, map);
         this._suffixTrie.push(reverseString(word), map);
     });
-
-    function reverseString(word: string): string {
-        return word.split("").reverse().join("");
-    }
 };
 
 /**
@@ -47,7 +43,7 @@ var WordFilter = function (words: string[]) {
  */
 WordFilter.prototype.f = function (prefix: string, suffix: string): number {
     const wordsMatchPrefix: MapWordWeight = this._prefixTrie.search(prefix);
-    const wordsMatchSuffix: MapWordWeight = this._suffixTrie.search(suffix);
+    const wordsMatchSuffix: MapWordWeight = this._suffixTrie.search(reverseString(suffix));
 
     const prefixSet = asWordsSet(wordsMatchPrefix);
     const suffixSet = asWordsSet(wordsMatchSuffix);
@@ -136,6 +132,10 @@ class TrieNode {
 
 function getCh(word, pos) {
     return word.charAt(pos);
+}
+
+function reverseString(word: string): string {
+    return word.split("").reverse().join("");
 }
 
 export default WordFilter;
