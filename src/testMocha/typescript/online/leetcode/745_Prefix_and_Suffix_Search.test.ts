@@ -17,8 +17,8 @@ describe("745. Prefix and Suffix Search", function () {
 
                 // when
                 // then
-                output.forEach(expectedWeight =>
-                    chai.expect(wordFilter.f.apply(wordFilter, prefixAndSuffix)).to.equal(expectedWeight)
+                output.forEach((expectedWeight, i) =>
+                    chai.expect(wordFilter.f.apply(wordFilter, prefixAndSuffix[i])).to.equal(expectedWeight)
                 )
             })
         );
