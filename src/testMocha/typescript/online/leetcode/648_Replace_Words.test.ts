@@ -7,6 +7,11 @@ describe("648. Replace Words", function () {
         [
             {
                 dict: ["cat", "cata", "bat", "rat"],
+                sentence: "the ca catcat cat cattle was rattled by the battery",
+                output: "the ca cat cat cat was rat by the bat"
+            },
+            {
+                dict: ["cat", "cata", "bat", "rat"],
                 sentence: "the cattle was rattled by the battery",
                 output: "the cat was rat by the bat"
             },
