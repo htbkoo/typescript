@@ -92,13 +92,12 @@ class TrieNode {
     private _words: MapWordWeight = {};
     private _children: { [k: string]: TrieNode } = {};
 
-    public push(word: string, {key, weight}) {
+    public push(word: string, {key, weight}: {key: string, weight: number}) {
         const length = word.length;
         let current: TrieNode = this;
 
         for (let i = 0; i < length; ++i) {
-            // TODO: refactor
-            current._words[key] = weight;
+            current._setWeight(key, weight);
 
             const ch = getCh(word, i);
             const children = current._children;
@@ -108,7 +107,11 @@ class TrieNode {
             current = children[ch];
         }
 
-        current._words[key] = weight;
+        current._setWeight(key, weight);
+    }
+
+    private _setWeight(key: string, weight: number) {
+        this._words[key] = weight;
     }
 
     public search(xfix: string) {
