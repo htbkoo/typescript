@@ -34,10 +34,10 @@ var replaceWords = function (dict: string[], sentence: string): string {
     const SEPARATOR = " ";
 
     return sentence.split(SEPARATOR)
-        .map(byReplacingFrom)
+        .map(byTrieReplacing)
         .join(SEPARATOR);
 
-    function byReplacingFrom(word) {
+    function byTrieReplacing(word) {
         let possibleFirstMatch: TrieNode = trie.findFirstMatch(word);
         if (possibleFirstMatch.isEnd) {
             return possibleFirstMatch.isEnd;
@@ -56,7 +56,7 @@ class TrieNode {
         let current: TrieNode = this;
         for (let i = 0; i < length; ++i) {
             let ch = getCh(word, i);
-            if (!this._hasChild(ch)) {
+            if (!current._hasChild(ch)) {
                 current._children[ch] = new TrieNode();
             }
             current = current._children[ch];
