@@ -22,6 +22,8 @@ Note:
 
 * */
 
+enum Direction {LeftToRight, RightToLeft}
+
 /**
  * @param {string[]} words
  */
@@ -31,8 +33,8 @@ var WordFilter = function (words: string[]) {
 
     words.forEach((word, i) => {
         const map = {key: word, weight: i};
-        this._prefixTrie.push(word, map);
-        this._suffixTrie.push(reverseString(word), map);
+        this._prefixTrie.push(Direction.LeftToRight, word, map);
+        this._suffixTrie.push(Direction.RightToLeft, word, map);
     });
 };
 
@@ -42,8 +44,8 @@ var WordFilter = function (words: string[]) {
  * @return {number}
  */
 WordFilter.prototype.f = function (prefix: string, suffix: string): number {
-    const wordsMatchPrefix: MapWordWeight = this._prefixTrie.search(prefix);
-    const wordsMatchSuffix: MapWordWeight = this._suffixTrie.search(reverseString(suffix));
+    const wordsMatchPrefix: MapWordWeight = this._prefixTrie.search(Direction.LeftToRight, prefix);
+    const wordsMatchSuffix: MapWordWeight = this._suffixTrie.search(Direction.RightToLeft, suffix);
 
     const prefixSet = asWordsSet(wordsMatchPrefix);
     const suffixSet = asWordsSet(wordsMatchSuffix);
@@ -92,11 +94,11 @@ class TrieNode {
     private _words: MapWordWeight = {};
     private _children: { [k: string]: TrieNode } = {};
 
-    public push(word: string, {key, weight}: {key: string, weight: number}) {
+    public push(direction: Direction, word: string, {key, weight}: { key: string, weight: number }) {
         const length = word.length;
         let current: TrieNode = this;
 
-        for (let i = 0; i < length; ++i) {
+        for (let i = getStart(direction, length); isEnd(direction, i, length); i = getNext(direction, i)) {
             current._setWeight(key, weight);
 
             const ch = getCh(word, i);
@@ -114,11 +116,11 @@ class TrieNode {
         this._words[key] = weight;
     }
 
-    public search(xfix: string) {
+    public search(direction: Direction, xfix: string) {
         const length = xfix.length;
         let current: TrieNode = this;
 
-        for (let i = 0; i < length; ++i) {
+        for (let i = getStart(direction, length); isEnd(direction, i, length); i = getNext(direction, i)) {
             const ch = getCh(xfix, i);
 
             current = current._children[ch];
@@ -137,8 +139,28 @@ function getCh(word, pos) {
     return word.charAt(pos);
 }
 
-function reverseString(word: string): string {
-    return word.split("").reverse().join("");
+function getStart(direction: Direction, length: number) {
+    if (direction === Direction.LeftToRight) {
+        return 0;
+    } else {
+        return length-1;
+    }
+}
+
+function isEnd(direction: Direction, i: number, length: number): boolean {
+    if (direction === Direction.LeftToRight) {
+        return i < length;
+    } else {
+        return i >= 0;
+    }
+}
+
+function getNext(direction: Direction, i: number) {
+    if (direction === Direction.LeftToRight) {
+        return i + 1;
+    } else {
+        return i - 1;
+    }
 }
 
 export default WordFilter;
