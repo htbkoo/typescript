@@ -3,7 +3,7 @@ import * as chai from "chai";
 import flipAndInvertImage from "../../../../main/typescript/online/leetcode/832_Flipping_an_Image";
 
 describe("832. Flipping an Image", function () {
-    describe('should return the word with given prefix and suffix with maximum weight', function () {
+    describe('should return the resulting image', function () {
         [
             {
                 input: [[1, 1, 0], [1, 0, 1], [0, 0, 0]],
