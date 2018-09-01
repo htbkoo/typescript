@@ -22,47 +22,29 @@ Note:
 
 * */
 
-type Digit = 0 | 1;
-
 /**
  * @param {number[]} nums
  * @return {number}
  */
 var totalHammingDistance = function (nums: number[]): number {
-    if (nums.length === 0) {
+    let size = nums.length;
+    if (size < 2) {
         return 0;
     }
 
-    let binaryDigitsArray = nums.map(toBinaryDigits);
-    const maxLength = binaryDigitsArray.reduce((maxLength, digits) => Math.max(maxLength, digits.length), binaryDigitsArray[0].length);
-    return Array(maxLength).fill(0)
-        .map(toHammingDistance)
-        .reduce((a, b) => a + b, 0);
-
-    function toBinaryDigits(num: number): Digit[] {
-        return num.toString(2).split("").map(ch => parseInt(ch) as Digit);
-    }
-
-    function toHammingDistance(_, i): number {
-        const initialCounts = {0: 0, 1: 0};
-        const counts = binaryDigitsArray
-            .map(getDigitOrZero)
-            .reduce((obj, digit) => {
-                obj[digit]++;
-                return obj;
-            }, initialCounts);
-        return counts[0] * counts[1];
-
-        function getDigitOrZero(digits: Digit[]): number {
-            let length = digits.length;
-            if (i >= length) {
-                return 0;
-            } else {
-                return digits[length - 1 - i];
-            }
+    let total = 0, max;
+    do {
+        max = 0;
+        let oneCount = 0;
+        for (let i = 0; i < size; ++i) {
+            oneCount += nums[i] % 2;
+            nums[i] = Math.floor(nums[i] / 2);
+            max = Math.max(max, nums[i]);
         }
-    }
+        total += (size - oneCount) * oneCount;
+    } while (max > 0);
 
+    return total;
 };
 
 export default totalHammingDistance;
