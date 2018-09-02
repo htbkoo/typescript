@@ -1,9 +1,14 @@
-function ListNode(val) {
-    this.val = val;
-    this.next = null;
+class ListNode {
+    public readonly val: any;
+    public next: ListNode;
+
+    constructor(val) {
+        this.val = val;
+        this.next = null;
+    }
 }
 
-function createList(arr: any[]): typeof ListNode {
+function createList(arr: any[]): ListNode {
     if (arr.length === 0) {
         return null;
     }
