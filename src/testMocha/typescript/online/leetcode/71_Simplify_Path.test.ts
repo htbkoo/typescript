@@ -1,6 +1,5 @@
 import * as chai from "chai";
 
-import frequencySort from "../../../../main/typescript/online/leetcode/451_Sort_Characters_By_Frequency";
 import simplifyPath from "../../../../main/typescript/online/leetcode/71_Simplify_Path";
 
 describe("71. Simplify Path", function () {
