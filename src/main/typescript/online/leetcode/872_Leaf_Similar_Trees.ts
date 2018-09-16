@@ -18,8 +18,6 @@ Note:
 
 * */
 
-type TreeNodeType = typeof TreeNode;
-
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -32,23 +30,24 @@ type TreeNodeType = typeof TreeNode;
  * @param {TreeNode} root2
  * @return {boolean}
  */
-var leafSimilar = function (root1: TreeNodeType, root2: TreeNodeType): boolean {
+var leafSimilar = function (root1: TreeNode, root2: TreeNode): boolean {
     const seq1 = computeLeafValueSequence(root1), seq2 = computeLeafValueSequence(root2);
     return seq1.length === seq2.length && seq1.every((v, i) => v === seq2[i]);
 
-    function computeLeafValueSequence(root: TreeNodeType): number[] {
-        function isChildNull(node: TreeNodeType, side: string) {
+    function computeLeafValueSequence(root: TreeNode): number[] {
+        function isChildNull(node: TreeNode, side: string) {
             return node[side] === null;
         }
 
-        function isLeaf(node: TreeNodeType): boolean {
+        function isLeaf(node: TreeNode): boolean {
             return isChildNull(node, "left") && isChildNull(node, "right");
         }
-        if (root===null){
+
+        if (root === null) {
             return [];
-        }else if (isLeaf(root)){
+        } else if (isLeaf(root)) {
             return [root["val"]];
-        }else{
+        } else {
             return computeLeafValueSequence(root["left"]).concat(computeLeafValueSequence(root["right"]))
         }
     }
