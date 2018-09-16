@@ -67,10 +67,13 @@ var longestPalindrome = function (s: string): string {
 
         let prev = Array(length).fill(""), curr = [];
         for (let j = 1; j <= (length / 2) + 1; ++j) {
+            let any = false;
             for (let i = 0; i < length; ++i) {
                 const low = i - (j - 1), high = i + j;
                 const isPalindrome = isInRange(low, high) && isDefined(prev[i]) && isSameChar(low, high);
                 if (isPalindrome) {
+                    any = true;
+
                     const char = chars[low];
                     let newString = char + prev[i] + char;
                     curr.push(newString);
@@ -78,6 +81,9 @@ var longestPalindrome = function (s: string): string {
                 } else {
                     curr.push(undefined);
                 }
+            }
+            if (!any) {
+                break;
             }
             prev = curr;
             curr = [];
