@@ -39,6 +39,11 @@ Note: The given binary tree has not more than 10000 nodes. The height of the tre
 
 * */
 
+type Path = {
+    maxLength: number,
+    maxConnected: number
+}
+
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -51,27 +56,34 @@ Note: The given binary tree has not more than 10000 nodes. The height of the tre
  * @return {number}
  */
 var longestUnivaluePath = function (root: TreeNode): number {
-    if (!root || !hasChild()) {
-        return 0;
-    }
-    let leftPath = 0, rightPath = 0;
-    if (root.left) {
-        leftPath = longestUnivaluePath(root.left);
-        if (root.val === root.left.val) {
-            leftPath++;
-        }
-    }
-    if (root.right) {
-        rightPath = longestUnivaluePath(root.right);
-        if (root.val === root.right.val) {
-            rightPath++;
-        }
-    }
+    const EMPTY_PATH = {maxLength: 0, maxConnected: 0};
+    return findPath(root).maxLength;
 
-    return Math.max(leftPath, rightPath);
+    function findPath(node: TreeNode): Path {
+        if (!node || !hasChild()) {
+            return EMPTY_PATH;
+        }
 
-    function hasChild() {
-        return root.left || root.right;
+        return [
+            "left",
+            "right"
+        ].reduce((longest, side) => {
+            let {maxLength, maxConnected} = longest;
+            if (node[side]) {
+                let childPath = findPath(node[side]);
+                if (node.val === node[side].val) {
+                    maxConnected++;
+                    maxLength = Math.max(maxLength, maxConnected);
+                } else {
+                    maxConnected = 0;
+                }
+            }
+            return {maxLength, maxConnected}
+        }, EMPTY_PATH);
+
+        function hasChild() {
+            return node.left || node.right;
+        }
     }
 };
 
