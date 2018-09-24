@@ -65,27 +65,24 @@ var longestUnivaluePath = function (root: TreeNode): number {
 
     function findLongest(node: TreeNode): Path {
         let left = node.left, right = node.right;
-        let isBothConnected = !!left && !!right && left.val === node.val && right.val === node.val;
-        if (isBothConnected) {
-            let leftPath = findLongest(node.left), rightPath = findLongest(node.right);
-            let maxConnected = 1 + leftPath.maxConnected + rightPath.maxConnected;
-            let maxLength = Math.max(maxConnected, Math.max(leftPath.maxLength, rightPath.maxLength));
-            return {
-                maxLength,
-                maxConnected
-            }
-        } else if (!!left && !!right) {
+        let leftPath = (!!left) ? findLongest(node.left) : EMPTY_PATH,
+            rightPath = (!!right) ? findLongest(node.right) : EMPTY_PATH;
 
-        } else if (!!left) {
-
-        } else if (!!right) {
-
-        } else if (!left && !right){
-            return {
-                maxLength: 1,
-                maxConnected: 1
-            }
+        let isLeftConnected = !!left && left.val === node.val;
+        let isRightConnected = !!right && right.val === node.val;
+        let maxConnected = 0, maxBoth = 0;
+        if (isLeftConnected && isRightConnected) {
+            maxBoth = 2 + leftPath.maxConnected + rightPath.maxConnected;
         }
+        if (isLeftConnected) {
+            maxConnected = Math.max(1 + leftPath.maxConnected, maxConnected);
+        }
+        if (isRightConnected) {
+            maxConnected = Math.max(1 + rightPath.maxConnected, maxConnected);
+        }
+        let maxLength = Math.max(maxBoth, Math.max(maxConnected, Math.max(leftPath.maxLength, rightPath.maxLength)));
+
+        return {maxLength, maxConnected};
     }
 };
 
