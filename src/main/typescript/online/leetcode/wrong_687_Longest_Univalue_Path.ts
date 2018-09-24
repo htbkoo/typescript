@@ -56,35 +56,33 @@ type Path = {
  * @return {number}
  */
 var longestUnivaluePath = function (root: TreeNode): number {
-    const EMPTY_PATH: Path = {maxLength: 0, maxConnected: 0};
-    if (!!root) {
-        return findLongest(root).maxLength
-    } else {
-        return 0;
-    }
+    const EMPTY_PATH = {maxLength: 0, maxConnected: 0};
+    return findPath(root).maxLength;
 
-    function findLongest(node: TreeNode): Path {
-        let left = node.left, right = node.right;
-        let isBothConnected = !!left && !!right && left.val === node.val && right.val === node.val;
-        if (isBothConnected) {
-            let leftPath = findLongest(node.left), rightPath = findLongest(node.right);
-            let maxConnected = 1 + leftPath.maxConnected + rightPath.maxConnected;
-            let maxLength = Math.max(maxConnected, Math.max(leftPath.maxLength, rightPath.maxLength));
-            return {
-                maxLength,
-                maxConnected
+    function findPath(node: TreeNode): Path {
+        if (!node || !hasChild()) {
+            return EMPTY_PATH;
+        }
+
+        return [
+            "left",
+            "right"
+        ].reduce((longest, side) => {
+            let {maxLength, maxConnected} = longest;
+            if (node[side]) {
+                let childPath = findPath(node[side]);
+                if (node.val === node[side].val) {
+                    maxConnected++;
+                    maxLength = Math.max(maxLength, maxConnected);
+                } else {
+                    maxConnected = 0;
+                }
             }
-        } else if (!!left && !!right) {
+            return {maxLength, maxConnected}
+        }, EMPTY_PATH);
 
-        } else if (!!left) {
-
-        } else if (!!right) {
-
-        } else if (!left && !right){
-            return {
-                maxLength: 1,
-                maxConnected: 1
-            }
+        function hasChild() {
+            return node.left || node.right;
         }
     }
 };
