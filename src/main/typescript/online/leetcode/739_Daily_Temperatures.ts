@@ -14,24 +14,40 @@ Note: The length of temperatures will be in the range [1, 30000]. Each temperatu
  * @return {number[]}
  */
 var dailyTemperatures = function (temperatures: number[]): number[] {
-    const dayToWarmers = new Array(temperatures.length).fill(0);
+    const length = temperatures.length;
+    const indexStack = [], dayToWarmers = new Array(length).fill(0);
 
-    const lowestTemperature = 30, highestTemperature = 100;
-    const temperaturesIndex = new Array(highestTemperature + 1).fill(0).map(() => []);
+    indexStack.push(length - 1);
 
-    temperatures.forEach((temperature, today) => {
-        for (let i = lowestTemperature; i < temperature; ++i) {
-            temperaturesIndex[i].forEach(day => {
-                if (dayToWarmers[day] === 0) {
-                    dayToWarmers[day] = today - day;
-                }
-            });
-            temperaturesIndex[i]=[];
-        }
-        temperaturesIndex[temperature].push(today);
-    });
+    for (let i = length - 2; i >= 0; --i) {
+        let topDay, top, current;
+        do {
+            topDay = peek(indexStack);
+            top = temperatures[topDay];
+            current = temperatures[i];
+            if (current < top) {
+                dayToWarmers[i] = topDay - i;
+                break;
+            }
+            indexStack.pop();
+        } while (!isEmpty(indexStack));
+
+        indexStack.push(i);
+    }
 
     return dayToWarmers;
+
+    function peek(stack: number[]) {
+        let stackLength = stack.length;
+        if (stackLength === 0) {
+            throw new Error("stack is empty");
+        }
+        return stack[stackLength - 1];
+    }
+
+    function isEmpty(stack): boolean {
+        return stack.length === 0;
+    }
 };
 
 export default dailyTemperatures;
