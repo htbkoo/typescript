@@ -25,7 +25,8 @@ var dailyTemperatures = function (temperatures: number[]): number[] {
                 if (dayToWarmers[day] === 0) {
                     dayToWarmers[day] = today - day;
                 }
-            })
+            });
+            temperaturesIndex[i]=[];
         }
         temperaturesIndex[temperature].push(today);
     });
