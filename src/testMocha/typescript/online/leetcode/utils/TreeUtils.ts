@@ -91,7 +91,6 @@ function treeToArray(root: TreeNode): any[] {
         return isNodeExist(node) && isNodeNonEmpty(node);
     }
 
-
     function isNodeExist(node: TreeNode) {
         return node && node !== null;
     }
