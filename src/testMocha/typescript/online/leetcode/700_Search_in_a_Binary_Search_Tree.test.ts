@@ -1,8 +1,7 @@
 import * as chai from "chai";
 
-import Trie from "../../../../main/typescript/online/leetcode/208_Implement_Trie_Prefix_Tree";
-import searchBST from "../../../../main/typescript/online/leetcode/700_Search_in_a_Binary_Search_Tree";
 import {createTree, treeToArray} from "./utils/TreeUtils";
+import searchBST from "../../../../main/typescript/online/leetcode/700_Search_in_a_Binary_Search_Tree";
 
 describe("700. Search in a Binary Search Tree", function () {
     describe('should search in a BST', function () {
