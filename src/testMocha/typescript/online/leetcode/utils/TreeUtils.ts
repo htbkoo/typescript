@@ -65,7 +65,40 @@ function createTree(arr: any[]): TreeNode {
 }
 
 function treeToArray(root: TreeNode): any[] {
-    return [];
+    if (isNodeExistAndNotEmpty(root)) {
+        const arr = [];
+        const queue = [root]; // TODO: assumed root is not emptyNode - add test case to check
+        while (queue.length > 0) {
+            const node = queue.shift();
+            arr.push(node.val);
+
+            [
+                'left',
+                'right',
+            ].forEach(side => {
+                let child = node[side];
+                if (isNodeExist(child)) {
+                    queue.push(child);
+                }
+            })
+        }
+        return arr;
+    } else {
+        return [];
+    }
+
+    function isNodeExistAndNotEmpty(node: TreeNode) {
+        return isNodeExist(node) && isNodeNonEmpty(node);
+    }
+
+
+    function isNodeExist(node: TreeNode) {
+        return node && node !== null;
+    }
+
+    function isNodeNonEmpty(node: TreeNode) {
+        return !EmptyNode.isEmptyNode(node);
+    }
 }
 
 export {createTree, treeToArray};
