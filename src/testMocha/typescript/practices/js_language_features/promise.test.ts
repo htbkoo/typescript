@@ -1,5 +1,7 @@
 import * as chai from "chai";
 
+const shouldLogToConsole = true;
+
 describe("promise", function () {
     let logs = [];
 
@@ -74,7 +76,11 @@ describe("promise", function () {
 
     function pushToLog(message) {
         logs.push(message);
-        return console.log(message)
+        if (shouldLogToConsole){
+            console.log(message)
+        }
+
+        return;
     }
 
     function assertLog(messages) {
