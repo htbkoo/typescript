@@ -19,9 +19,9 @@ describe("promise", function () {
 
         const functions = [
             () => promiseLogAndResolve(0),
-            () => new Promise(resolve => setInterval(() => resolve(1), 200)),
+            () => waitAndLogAndResolve(200,1),
             () => promiseLogAndResolve(2),
-            () => new Promise(resolve => setInterval(() => resolve(3), 400)),
+            () => waitAndLogAndResolve(400,3),
             () => promiseLogAndResolve(4),
         ];
 
@@ -38,7 +38,7 @@ describe("promise", function () {
         it('should execute sequentially', function () {
             // given
             function executeInOrder(fns) {
-                return fns.reduce((prev, curr) => prev.then(() => curr), Promise.resolve());
+                return fns.reduce((prev, curr) => prev.then(() => curr()), Promise.resolve());
             }
 
             // when
@@ -54,7 +54,7 @@ describe("promise", function () {
 
     function waitAndLogAndResolve(timeout, val) {
         console.log(`wait ${val}`);
-        return new Promise(resolve => setInterval(() => {
+        return new Promise(resolve => setTimeout(() => {
             console.log(`resolving after wait ${val}`);
             return resolve(val);
         }, timeout));
