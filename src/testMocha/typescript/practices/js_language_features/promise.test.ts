@@ -13,7 +13,7 @@ describe("promise", function () {
                 pushToLog("executed once created");
                 resolve();
             }))
-            .then(() => assertLog(["promise returning tried function", "executed once created"]));
+            .then(() => assertLogInOrder(["promise returning tried function", "executed once created"]));
     });
 
     describe('should be able to notify using promise to fulfill Question 4', function () {
@@ -40,8 +40,9 @@ describe("promise", function () {
 
             // when
             // then
-            return executeAll(functions);
+            return executeAll(functions).then(() => assertLog(["promise returning 0", "wait 1", "resolving after wait 1", "promise returning 2", "wait 3", "resolving after wait 3", "promise returning 4",]));
         });
+
         it('should execute sequentially', function () {
             // given
             function executeInOrder(fns) {
@@ -50,7 +51,7 @@ describe("promise", function () {
 
             // when
             // then
-            return executeInOrder(functions);
+            return executeInOrder(functions).then(() => assertLog(["promise returning 0", "wait 1", "resolving after wait 1", "promise returning 2", "wait 3", "resolving after wait 3", "promise returning 4",]));
         });
     });
 
@@ -60,9 +61,9 @@ describe("promise", function () {
     }
 
     function waitAndLogAndResolve(timeout, val) {
-        console.log(`wait ${val}`);
+        pushToLog(`wait ${val}`);
         return new Promise(resolve => setTimeout(() => {
-            console.log(`resolving after wait ${val}`);
+            pushToLog(`resolving after wait ${val}`);
             return resolve(val);
         }, timeout));
     }
@@ -77,6 +78,10 @@ describe("promise", function () {
     }
 
     function assertLog(messages) {
+        return chai.expect(logs).to.have.members(messages);
+    }
+
+    function assertLogInOrder(messages) {
         return chai.expect(logs).to.deep.equal(messages);
     }
 });
