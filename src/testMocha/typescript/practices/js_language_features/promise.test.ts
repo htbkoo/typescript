@@ -1,12 +1,19 @@
-describe("promise", function () {
-    it('test that promise is executed once created', function (done) {
-        promiseLogAndResolve("tried function");
-        new Promise(resolve => {
-            console.log("executed once created");
-            resolve();
-        });
+import * as chai from "chai";
 
-        done();
+describe("promise", function () {
+    let logs = [];
+
+    beforeEach(function () {
+        resetLog();
+    });
+
+    it('test that promise is executed once created', function () {
+        return promiseLogAndResolve("tried function")
+            .then(() => new Promise(resolve => {
+                pushToLog("executed once created");
+                resolve();
+            }))
+            .then(() => assertLog(["promise returning tried function", "executed once created"]));
     });
 
     describe('should be able to notify using promise to fulfill Question 4', function () {
@@ -19,9 +26,9 @@ describe("promise", function () {
 
         const functions = [
             () => promiseLogAndResolve(0),
-            () => waitAndLogAndResolve(200,1),
+            () => waitAndLogAndResolve(200, 1),
             () => promiseLogAndResolve(2),
-            () => waitAndLogAndResolve(400,3),
+            () => waitAndLogAndResolve(400, 3),
             () => promiseLogAndResolve(4),
         ];
 
@@ -48,7 +55,7 @@ describe("promise", function () {
     });
 
     function promiseLogAndResolve(val) {
-        console.log(`promise returning ${val}`);
+        pushToLog(`promise returning ${val}`);
         return Promise.resolve(val);
     }
 
@@ -58,5 +65,18 @@ describe("promise", function () {
             console.log(`resolving after wait ${val}`);
             return resolve(val);
         }, timeout));
+    }
+
+    function resetLog() {
+        logs = [];
+    }
+
+    function pushToLog(message) {
+        logs.push(message);
+        return console.log(message)
+    }
+
+    function assertLog(messages) {
+        return chai.expect(logs).to.deep.equal(messages);
     }
 });
