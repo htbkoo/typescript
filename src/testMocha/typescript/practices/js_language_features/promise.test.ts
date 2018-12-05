@@ -38,7 +38,7 @@ describe("promise", function () {
         it('should execute sequentially', function () {
             // given
             function executeInOrder(fns) {
-                return fns.reduce((prev, curr) => prev.then(() => curr()), Promise.resolve());
+                return fns.reduce((promise, fn) => promise.then(fn), Promise.resolve());
             }
 
             // when
