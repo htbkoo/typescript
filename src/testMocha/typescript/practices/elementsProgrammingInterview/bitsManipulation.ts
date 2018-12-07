@@ -60,6 +60,38 @@ describe("bits manipulation", function () {
     );
 
     // 		b. Compute x modulo a power of two, e.g., returns 13 for 77 mod 64.
-    // 		c. Test if x is a power of 2, i.e., evaluates to true for x = 1, 2, 4, 8, ... , false for all
-    // 		other values.
+
+    // 		c. Test if x is a power of 2, i.e., evaluates to true for x = 1, 2, 4, 8, ... , false for all other values.
+
+    [
+        {input: 1, expected: true},
+        {input: 2, expected: true},
+        {input: 4, expected: true},
+        {input: 8, expected: true},
+        {input: 16, expected: true},
+        {input: 3, expected: false},
+        {input: 5, expected: false},
+        {input: 6, expected: false},
+        {input: 7, expected: false},
+        {input: 9, expected: false},
+        {input: 10, expected: false},
+        {input: 11, expected: false},
+        {input: 12, expected: false},
+        {input: 13, expected: false},
+        {input: 14, expected: false},
+        {input: 15, expected: false},
+    ].forEach(({input, expected}) =>
+        it(`should test if ${input} is a power of 2`, function () {
+            // given
+            function isPowerOf2(num: number): boolean {
+                return num === (num & ~(num - 1));
+            }
+
+            // when
+            const actual = isPowerOf2(input);
+
+            // then
+            chai.expect(actual).to.equal(expected);
+        })
+    );
 });
