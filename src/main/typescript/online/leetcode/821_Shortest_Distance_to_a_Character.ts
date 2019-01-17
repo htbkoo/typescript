@@ -24,37 +24,37 @@ Note:
  * @return {number[]}
  */
 var shortestToChar = function (S: string, C: string): number[] {
-    const occurrences = [];
     const chars = S.split("");
 
-    for (let i = 0; i < chars.length; ++i) {
+    let from = -1;
+    const length = chars.length;
+    const answer = new Array(length);
+
+    for (let i = 0; i < length; ++i) {
         if (chars[i] === C) {
-            occurrences.push(i);
+            if (from === -1) {
+                for (let j = 0; j <= i; ++j) {
+                    answer[j] = i - j;
+                }
+            } else {
+                const middle = Math.floor((i + from) / 2);
+                for (let j = from; j <= middle; ++j) {
+                    answer[j] = j - from;
+                }
+                for (let j = middle + 1; j <= i; ++j) {
+                    answer[j] = i - j;
+                }
+
+            }
+            from = i;
         }
     }
 
-    let pointer = 1;
-    return chars.map((_, i) => {
-        if (occurrences.length === 1) {
-            return Math.abs(i - occurrences[0]);
-        } else {
-            const distToCurr = Math.abs(i - occurrences[pointer]);
-            const distToPrev = Math.abs(i - occurrences[pointer - 1]);
+    for (let i = from; i < length; ++i) {
+        answer[i] = i - from;
+    }
 
-            if (distToPrev < distToCurr) {
-                return distToPrev;
-            } else {
-                if (!isLastOccurrence()) {
-                    pointer++;
-                }
-                return distToCurr;
-            }
-
-            function isLastOccurrence(): boolean {
-                return pointer >= occurrences.length - 1;
-            }
-        }
-    })
+    return answer;
 };
 
 export default shortestToChar;
