@@ -38,11 +38,13 @@ var fizzBuzz = function (n: number): string[] {
     return new Array(n).fill(0)
         .map((_, i) => {
             const num = i + 1;
-            if ((num % 5 === 0) && (num % 3 === 0)) {
+            const remainderFive = num % 5;
+            const remainderThree = num % 3;
+            if ((remainderFive === 0) && (remainderThree === 0)) {
                 return "FizzBuzz";
-            } else if (num % 5 === 0) {
+            } else if (remainderFive === 0) {
                 return "Buzz";
-            } else if (num % 3 === 0) {
+            } else if (remainderThree === 0) {
                 return "Fizz";
             } else {
                 return num.toString()
