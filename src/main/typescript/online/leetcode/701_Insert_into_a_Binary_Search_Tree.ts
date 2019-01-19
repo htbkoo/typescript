@@ -60,22 +60,13 @@ var insertIntoBST = function (root: TreeNode, val: number): TreeNode {
     if (!root) {
         return new TreeNode(val);
     } else {
-        const rootVal = root.val;
-        if (val < rootVal) {
-            pushInto("left");
+        if (val < root.val) {
+            root.left = insertIntoBST(root.left, val);
         } else {
-            pushInto("right");
+            root.right = insertIntoBST(root.right, val);
         }
 
         return root;
-    }
-
-    function pushInto(side: string) {
-        if (root[side]) {
-            insertIntoBST(root[side], val);
-        } else {
-            root[side] = new TreeNode(val);
-        }
     }
 };
 
