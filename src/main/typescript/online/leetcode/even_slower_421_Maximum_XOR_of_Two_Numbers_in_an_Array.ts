@@ -34,9 +34,9 @@ var findMaximumXOR = function (nums: number[]): number {
 };
 
 class TrieNode {
+    // IntelliJ bug - already queried in add()
+    // noinspection JSMismatchedCollectionQueryUpdate
     private readonly children: TrieNode[] = [];
-    // private readonly children: TrieNode[] = [undefined, undefined];
-    private isLeaf: boolean = false;
 
     private constructor() {
 
@@ -47,14 +47,12 @@ class TrieNode {
     }
 
     public add(digits: number[]): TrieNode {
-        const leaf = digits.reduce((node, digit) => {
+        digits.reduce((node, digit) => {
             if (!node.children[digit]) {
                 node.children[digit] = new TrieNode();
             }
             return node.children[digit];
         }, this);
-        leaf.isLeaf = true;
-
         return this;
     }
 
