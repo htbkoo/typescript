@@ -6,8 +6,16 @@ describe("421. Maximum XOR of Two Numbers in an Array", function () {
     describe('should find the maximum result of ai XOR aj', function () {
         [
             {
+                input: [2, 3],
+                output: 1
+            },
+            {
                 input: [3, 10, 5, 25, 2, 8],
                 output: 28
+            },
+            {
+                input: [3, 5, 7, 15],
+                output: 12
             },
             {
                 input: [3, 10, 5, 25, 2, 8, 2, 4, 44, 534, 23, 21, 1],
