@@ -49,39 +49,19 @@ Note:
 var matrixReshape = function (nums: number[][], r: number, c: number): number[][] {
     if (!nums || nums.length === 0) {
         return nums;
-    } else if (!isReshapePossible()) {
-        return nums;
     } else {
-        return reshapeNaive();
-    }
-
-    function isReshapePossible(): boolean {
-        const expectedNumCell = r * c;
-        return actualNumCell() === expectedNumCell;
-    }
-
-    function actualNumCell(): number {
-        // if the matrix may be non-rectangular?
-        // return nums.reduce((size, row) => size + row.length, 0);
-
-        // assume the matrix is rectangular
         const height = nums.length, width = nums[0].length;
-        return width * height;
-    }
-
-    function reshapeNaive(): number[][] {
-        let i = 0, j = -1;
-
-        return [...Array(r)].map(() =>
-            [...Array(c)].map(() => {
-                j++;
-                if (j >= nums[i].length) {
-                    i++;
-                    j = 0;
-                }
-                return nums[i][j];
-            })
-        );
+        const length = width * height;
+        const expectedNumCell = r * c;
+        if (length === expectedNumCell) {
+            const answer = new Array(r).fill(0).map(() => []);
+            for (let i = 0; i < length; ++i) {
+                answer[Math.floor(i / c)][i % c] = nums[Math.floor(i / width)][i % width];
+            }
+            return answer;
+        } else {
+            return nums;
+        }
     }
 };
 
