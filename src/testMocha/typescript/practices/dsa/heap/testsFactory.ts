@@ -1,9 +1,9 @@
 import * as chai from "chai";
 
 const heapTestCases = require("./resources/heapTestCases.json");
-const defaultOutputAssertion = (actual) => ({
+const defaultOutputAssertion = heap => ({
     matches: expected => expected.forEach((num, i) => {
-        let v = actual.pop();
+        const v = heap.pop();
         chai.expect(v).to.equal(num, `wrong at index: ${i}, expected: <${num}> but was <${v}>`);
     })
 });
@@ -15,9 +15,9 @@ export default (heapClassName, newHeapOf, transformInput?, assertOutput = defaul
         if (transformInput) {
             input = transformInput(input);
         }
-        let actual = newHeapOf(input);
+        const heap = newHeapOf(input);
 
         // then
-        assertOutput(actual).matches(expected);
+        assertOutput(heap).matches(expected);
     })
 );
