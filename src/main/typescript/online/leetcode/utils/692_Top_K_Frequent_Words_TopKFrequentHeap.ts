@@ -76,7 +76,7 @@ export class TopKFrequentHeap {
         if (first.frequency < second.frequency) {
             return true;
         } else if (first.frequency === second.frequency) {
-            return first.word.localeCompare(second.word) < 0;
+            return first.word.localeCompare(second.word) > 0;
         } else {
             return false;
         }
