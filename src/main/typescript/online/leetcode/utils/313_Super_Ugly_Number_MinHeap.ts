@@ -33,6 +33,10 @@ export class MinHeap {
         }
     }
 
+    public isEmpty() {
+        return this.elements.length === 0;
+    }
+
     private pullUp(pos: number) {
         if (!isRoot()) {
             const parentPos = Math.floor((pos - 1) / 2);
