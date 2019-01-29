@@ -21,35 +21,24 @@ Note:
 
 * */
 
-import {MinHeap} from "./utils/313_Super_Ugly_Number_MinHeap";
-
 /**
  * @param {number} n
  * @param {number[]} primes
  * @return {number}
  */
-var nthSuperUglyNumber = function (n, primes) {
-
-    const heap = MinHeap.newHeap([1]);
-    const added = {};
-
-    while (!heap.isEmpty()) {
-        const number = heap.pop();
-        n--;
-
-        if (n <= 0) {
-            return number;
-        } else {
-            primes.forEach(prime => {
-                const newNumber = number * prime;
-                if (!(newNumber in added)) {
-                    added[newNumber] = true;
-                    heap.push(newNumber);
-                }
-            });
-        }
+var nthSuperUglyNumber = function (n: number, primes: number[]): number {
+    const indices = primes.map(() => 0);
+    const answers = [1];
+    while (answers.length < n) {
+        const nextAnswer = primes.reduce((min, prime, i) => Math.min(min, prime * answers[indices[i]]), Number.MAX_SAFE_INTEGER);
+        primes.forEach((prime, i) => {
+            if (nextAnswer === prime * answers[indices[i]]) {
+                indices[i]++;
+            }
+        });
+        answers.push(nextAnswer);
     }
-    throw new Error("should not be able to reach here");
+    return answers[n - 1];
 };
 
 export default nthSuperUglyNumber;
