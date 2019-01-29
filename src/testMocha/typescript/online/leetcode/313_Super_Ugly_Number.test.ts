@@ -11,6 +11,24 @@ describe("313. Super Ugly Number", function () {
                 },
                 expected: 32
             },
+            {
+                input: {
+                    n: 30, primes: [2, 7, 13, 19]
+                },
+                expected: 224
+            },
+            {
+                input: {
+                    n: 100, primes: [2, 7, 13, 19]
+                },
+                expected: 5408
+            },
+            {
+                input: {
+                    n: 100, primes: [2, 7, 13, 19, 23, 29, 31, 37]
+                },
+                expected: 868
+            },
         ].forEach(({input, expected}) =>
             it(`nthSuperUglyNumber(${JSON.stringify(input)}`, function () {
                 // given
