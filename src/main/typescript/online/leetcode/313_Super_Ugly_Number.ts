@@ -39,14 +39,15 @@ var nthSuperUglyNumber = function (n, primes) {
 
         if (n <= 0) {
             return number;
+        } else {
+            primes.forEach(prime => {
+                const newNumber = number * prime;
+                if (!(newNumber in added)) {
+                    added[newNumber] = true;
+                    heap.push(newNumber);
+                }
+            });
         }
-        primes.forEach(prime => {
-            const newNumber = number * prime;
-            if (!(newNumber in added)) {
-                added[newNumber] = true;
-                heap.push(newNumber);
-            }
-        });
     }
     throw new Error("should not be able to reach here");
 };
