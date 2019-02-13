@@ -49,7 +49,7 @@ function toUrlFreqMap(): {[url: string]: number}{
 }
 
 function getFreqPair(cpdomain: string): [string, number]{
-    const [freq, url] = cpdomain.split(" ", 2);
+    const [_, freq, url] = cpdomain.split(/(\d+) (.+)/);
     return [url, parseInt(freq)];
 }
 

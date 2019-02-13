@@ -34,7 +34,9 @@ describe("811. Subdomain Visit Count", function () {
 
     describe("getFreqPair", function () {
         [
-            {cpdomain: "9001 discuss.leetcode.com", expected: ["discuss.leetcode.com", 9001]}
+            {cpdomain: "9001 discuss.leetcode.com", expected: ["discuss.leetcode.com", 9001]},
+            {cpdomain: "9001 discuss leetcode.com", expected: ["discuss leetcode.com", 9001]},
+            {cpdomain: "100 discuss leetcode.com", expected: ["discuss leetcode.com", 100]},
         ].forEach(({cpdomain, expected}) =>
             it(`should map to freq pair for "${cpdomain}"`, function () {
                 // given
