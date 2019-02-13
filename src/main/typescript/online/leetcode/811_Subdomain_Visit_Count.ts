@@ -54,22 +54,23 @@ function getFreqPair(cpdomain: string): Pair {
 }
 
 function toUrlFreqMap(pair): { [url: string]: number } {
-    let [url, freq]: Pair = pair;
-    const map = {};
-    while (url.length > 0) {
-        if (url in map) {
-            map[url] += freq;
-        } else {
-            map[url] = freq;
-        }
-        const posSeparator = url.indexOf(SEPARATOR);
-        if (posSeparator !== -1) {
-            url = url.substring(posSeparator + 1);
-        } else {
-            url = "";
-        }
-    }
-    return map;
+    const [url, freq]: Pair = pair;
+    let current = "";
+    return url.split(SEPARATOR)
+        .reverse()
+        .reduce((map, part) => {
+            if (current){
+                current = `${part}.${current}`;
+            }else{
+                current = part;
+            }
+            if (current in map) {
+                map[current] += freq;
+            } else {
+                map[current] = freq;
+            }
+            return map;
+        }, {});
 }
 
 export {toUrlFreqMap, getFreqPair};
