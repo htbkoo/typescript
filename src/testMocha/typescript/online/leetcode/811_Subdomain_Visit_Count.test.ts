@@ -12,7 +12,7 @@ describe("811. Subdomain Visit Count", function () {
             },
             {
                 input: {cpdomains: ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]},
-                expected: ["901 mail.com","50 yahoo.com","900 google.mail.com","5 wiki.org","5 org","1 intel.mail.com","951 com"]
+                expected: ["901 mail.com", "50 yahoo.com", "900 google.mail.com", "5 wiki.org", "5 org", "1 intel.mail.com", "951 com"]
             },
         ].forEach(({input, expected}) =>
             it(`subdomainVisits(${JSON.stringify(input)}`, function () {
@@ -33,16 +33,17 @@ describe("811. Subdomain Visit Count", function () {
     });
 
     describe("getFreqPair", function () {
-        it("should map to freq pair", function () {
-            // given
-            const cpdomain = "9001 discuss.leetcode.com";
+        [
+            {cpdomain: "9001 discuss.leetcode.com", expected: ["discuss.leetcode.com", 9001]}
+        ].forEach(({cpdomain, expected}) =>
+            it(`should map to freq pair for "${cpdomain}"`, function () {
+                // given
+                // when
+                const pair = getFreqPair(cpdomain);
 
-            // when
-            const pair = getFreqPair(cpdomain);
-
-            // then
-            const expected = ["discuss.leetcode.com", 9001];
-            chai.expect(pair).to.deep.equal(expected);
-        });
+                // then
+                chai.expect(pair).to.deep.equal(expected);
+            })
+        );
     });
 });
