@@ -46,20 +46,31 @@ describe("811. Subdomain Visit Count", function () {
     });
 
     describe("toUrlFreqMap", function () {
-        it("should map to url frequency map", function () {
-            // given
-            const pair = ["discuss.leetcode.com", 9001];
+        [
+            {
+                pair: ["discuss.leetcode.com", 9001],
+                expected: {
+                    "discuss.leetcode.com": 9001,
+                    "leetcode.com": 9001,
+                    "com": 9001,
+                }
+            },
+            {
+                pair: ["discuss leetcode.com", 100],
+                expected: {
+                    "discuss leetcode.com": 100,
+                    "com": 100,
+                }
+            },
+        ].forEach(({pair, expected}) =>
+            it("should map to url frequency map", function () {
+                // given
+                // when
+                const map = toUrlFreqMap(pair);
 
-            // when
-            const map = toUrlFreqMap(pair);
-
-            // then
-            const expected = {
-                "discuss.leetcode.com": 9001,
-                "leetcode.com": 9001,
-                "com": 9001,
-            };
-            chai.expect(map).to.deep.equal(expected);
-        });
+                // then
+                chai.expect(map).to.deep.equal(expected);
+            })
+        );
     });
 });
