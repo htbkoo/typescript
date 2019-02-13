@@ -41,7 +41,8 @@ const SEPARATOR = ".";
  */
 var subdomainVisits = function (cpdomains: string[]): string[] {
     return cpdomains.map(getFreqPair)
-        .map(toUrlFreqMap);
+        .map(toUrlFreqMap)
+        .reduce(combineFreq, {});
 };
 
 export default subdomainVisits;
@@ -53,15 +54,17 @@ function getFreqPair(cpdomain: string): Pair {
     return [url, parseInt(freq)];
 }
 
-function toUrlFreqMap(pair): { [url: string]: number } {
+type FreqMap = { [url: string]: number };
+
+function toUrlFreqMap(pair): FreqMap {
     const [url, freq]: Pair = pair;
     let current = "";
     return url.split(SEPARATOR)
         .reverse()
         .reduce((map, part) => {
-            if (current){
+            if (current) {
                 current = `${part}.${current}`;
-            }else{
+            } else {
                 current = part;
             }
             if (current in map) {
@@ -73,4 +76,16 @@ function toUrlFreqMap(pair): { [url: string]: number } {
         }, {});
 }
 
-export {toUrlFreqMap, getFreqPair};
+function combineFreq(totalMap, freqMap: FreqMap): FreqMap {
+    return Object.keys(freqMap).reduce((intermediateMap, url) => {
+        const freq = freqMap[url];
+        if (url in intermediateMap) {
+            intermediateMap[url] += freq;
+        } else {
+            intermediateMap[url] = freq;
+        }
+        return intermediateMap;
+    }, totalMap)
+}
+
+export {toUrlFreqMap, getFreqPair, combineFreq};
