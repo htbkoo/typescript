@@ -1,7 +1,11 @@
 import * as chai from "chai";
 
 import subdomainVisits from "../../../../main/typescript/online/leetcode/811_Subdomain_Visit_Count";
-import {toUrlFreqMap, getFreqPair} from "../../../../main/typescript/online/leetcode/811_Subdomain_Visit_Count";
+import {
+    toUrlFreqMap,
+    getFreqPair,
+    combineFreq
+} from "../../../../main/typescript/online/leetcode/811_Subdomain_Visit_Count";
 
 describe("811. Subdomain Visit Count", function () {
     describe('should count subdomain visit', function () {
@@ -70,6 +74,39 @@ describe("811. Subdomain Visit Count", function () {
 
                 // then
                 chai.expect(map).to.deep.equal(expected);
+            })
+        );
+    });
+
+    describe("combineFreq", function () {
+        [
+            {
+                frequencies: [
+                    {
+                        "discuss.leetcode.com": 9001,
+                        "leetcode.com": 9001,
+                        "com": 9001,
+                    },
+                    {
+                        "discuss leetcode.com": 100,
+                        "com": 100,
+                    }
+                ],
+                expected: {
+                    "discuss.leetcode.com": 9001,
+                    "leetcode.com": 9001,
+                    "discuss leetcode.com": 100,
+                    "com": 9101,
+                }
+            },
+        ].forEach(({frequencies, expected}) =>
+            it("should combine frequencies counts", function () {
+                // given
+                // when
+                const total = frequencies.reduce(combineFreq, {});
+
+                // then
+                chai.expect(total).to.deep.equal(expected);
             })
         );
     });
