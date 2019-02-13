@@ -52,7 +52,9 @@ export default subdomainVisits;
 type Pair = [string, number];
 
 function getFreqPair(cpdomain: string): Pair {
-    const [, freq, url] = cpdomain.split(/(\d+) (.+)/);
+    const posSpace = cpdomain.indexOf(" ");
+    const freq = cpdomain.substring(0, posSpace);
+    const url = cpdomain.substring(posSpace + 1);
     return [url, parseInt(freq)];
 }
 
