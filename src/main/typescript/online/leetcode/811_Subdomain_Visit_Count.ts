@@ -33,24 +33,43 @@ Notes:
 
 * */
 
+const SEPARATOR = ".";
+
 /**
  * @param {string[]} cpdomains
  * @return {string[]}
  */
-var subdomainVisits = function(cpdomains) {
-
-
+var subdomainVisits = function (cpdomains: string[]): string[] {
+    return cpdomains.map(getFreqPair)
+        .map(toUrlFreqMap);
 };
 
 export default subdomainVisits;
 
-function toUrlFreqMap(): {[url: string]: number}{
+type Pair = [string, number];
 
-}
-
-function getFreqPair(cpdomain: string): [string, number]{
+function getFreqPair(cpdomain: string): Pair {
     const [, freq, url] = cpdomain.split(/(\d+) (.+)/);
     return [url, parseInt(freq)];
+}
+
+function toUrlFreqMap(pair): { [url: string]: number } {
+    let [url, freq]: Pair = pair;
+    const map = {};
+    while (url.length > 0) {
+        if (url in map) {
+            map[url] += freq;
+        } else {
+            map[url] = freq;
+        }
+        const posSeparator = url.indexOf(SEPARATOR);
+        if (posSeparator !== -1) {
+            url = url.substring(posSeparator + 1);
+        } else {
+            url = "";
+        }
+    }
+    return map;
 }
 
 export {toUrlFreqMap, getFreqPair};

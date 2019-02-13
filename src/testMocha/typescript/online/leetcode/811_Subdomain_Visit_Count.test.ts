@@ -28,10 +28,6 @@ describe("811. Subdomain Visit Count", function () {
         );
     });
 
-    describe("toUrlFreqMap", function () {
-
-    });
-
     describe("getFreqPair", function () {
         [
             {cpdomain: "9001 discuss.leetcode.com", expected: ["discuss.leetcode.com", 9001]},
@@ -47,5 +43,23 @@ describe("811. Subdomain Visit Count", function () {
                 chai.expect(pair).to.deep.equal(expected);
             })
         );
+    });
+
+    describe("toUrlFreqMap", function () {
+        it("should map to url frequency map", function () {
+            // given
+            const pair = ["discuss.leetcode.com", 9001];
+
+            // when
+            const map = toUrlFreqMap(pair);
+
+            // then
+            const expected = {
+                "discuss.leetcode.com": 9001,
+                "leetcode.com": 9001,
+                "com": 9001,
+            };
+            chai.expect(map).to.deep.equal(expected);
+        });
     });
 });
