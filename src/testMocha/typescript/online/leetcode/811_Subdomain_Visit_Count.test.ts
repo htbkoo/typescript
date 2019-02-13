@@ -99,11 +99,62 @@ describe("811. Subdomain Visit Count", function () {
                     "com": 9101,
                 }
             },
+            {
+                frequencies: [
+                    {
+                        "discuss.leetcode.com": 9001,
+                        "leetcode.com": 9001,
+                        "com": 9001,
+                    },
+                    {
+                        "discuss leetcode.com": 100,
+                        "com": 100,
+                    },
+                    {
+                        "discuss.leetcode.com": 100,
+                        "com": 100,
+                    }
+                ],
+                expected: {
+                    "discuss.leetcode.com": 9101,
+                    "leetcode.com": 9001,
+                    "discuss leetcode.com": 100,
+                    "com": 9201,
+                }
+            },
+            {
+                frequencies: [
+                    {
+                        "discuss.leetcode.com": 100,
+                        "leetcode.com": 100,
+                        "com": 100,
+                    },
+                    {
+                        "discuss leetcode.com": 100,
+                        "com": 100,
+                    },
+                    {
+                        "discuss.leetcode.com": 100,
+                        "com": 100,
+                    },
+                    {
+                        "discuss.leetcode.com": 100,
+                        "leetcode.com": 100,
+                        "com": 100,
+                    },
+                ],
+                expected: {
+                    "discuss.leetcode.com": 300,
+                    "leetcode.com": 200,
+                    "discuss leetcode.com": 100,
+                    "com": 400,
+                }
+            },
         ].forEach(({frequencies, expected}) =>
             it("should combine frequencies counts", function () {
                 // given
                 // when
-                const total = frequencies.reduce(combineFreq, {});
+                const total = (frequencies as any).reduce(combineFreq, {});
 
                 // then
                 chai.expect(total).to.deep.equal(expected);
