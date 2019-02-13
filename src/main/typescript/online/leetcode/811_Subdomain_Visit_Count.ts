@@ -40,9 +40,9 @@ const SEPARATOR = ".";
  * @return {string[]}
  */
 var subdomainVisits = function (cpdomains: string[]): string[] {
-    return cpdomains.map(getFreqPair)
+    return flatten(cpdomains.map(getFreqPair)
         .map(toUrlFreqMap)
-        .reduce(combineFreq, {});
+        .reduce(combineFreq, {}));
 };
 
 export default subdomainVisits;
@@ -88,4 +88,12 @@ function combineFreq(totalMap: FreqMap, freqMap: FreqMap): FreqMap {
     }, totalMap)
 }
 
-export {toUrlFreqMap, getFreqPair, combineFreq};
+function flatten(freqMap: FreqMap): string[] {
+    return Object.keys(freqMap).map(url => backToStringRepresentation(url, freqMap[url]));
+}
+
+function backToStringRepresentation(url: string, freq: number): string {
+    return `${freq} ${url}`;
+}
+
+export {toUrlFreqMap, getFreqPair, combineFreq, backToStringRepresentation};

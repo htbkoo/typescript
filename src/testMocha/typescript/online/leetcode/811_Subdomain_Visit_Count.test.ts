@@ -1,6 +1,6 @@
 import * as chai from "chai";
 
-import subdomainVisits from "../../../../main/typescript/online/leetcode/811_Subdomain_Visit_Count";
+import subdomainVisits, {backToStringRepresentation} from "../../../../main/typescript/online/leetcode/811_Subdomain_Visit_Count";
 import {
     toUrlFreqMap,
     getFreqPair,
@@ -27,7 +27,7 @@ describe("811. Subdomain Visit Count", function () {
                 const actual = subdomainVisits(cpdomains);
 
                 // then
-                chai.expect(actual).to.deep.equal(expected);
+                chai.expect(actual).to.have.members(expected);
             })
         );
     });
@@ -158,6 +158,25 @@ describe("811. Subdomain Visit Count", function () {
 
                 // then
                 chai.expect(total).to.deep.equal(expected);
+            })
+        );
+    });
+
+    describe("backToStringRepresentation", function () {
+        [
+            {
+                url: "discuss.leetcode.com",
+                freq: 9001,
+                expected: "9001 discuss.leetcode.com"
+            },
+        ].forEach(({url, freq, expected}) =>
+            it("should map back to string representation", function () {
+                // given
+                // when
+                const string = backToStringRepresentation(url, freq);
+
+                // then
+                chai.expect(string).to.deep.equal(expected);
             })
         );
     });
