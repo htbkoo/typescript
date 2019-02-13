@@ -76,7 +76,7 @@ function toUrlFreqMap(pair): FreqMap {
         }, {});
 }
 
-function combineFreq(totalMap, freqMap: FreqMap): FreqMap {
+function combineFreq(totalMap: FreqMap, freqMap: FreqMap): FreqMap {
     return Object.keys(freqMap).reduce((intermediateMap, url) => {
         const freq = freqMap[url];
         if (url in intermediateMap) {
