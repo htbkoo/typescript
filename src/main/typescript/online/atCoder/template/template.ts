@@ -1,4 +1,4 @@
-export {};
+export {Main};
 
 // parameter "input" gets all data
 function Main(input) {
@@ -15,5 +15,8 @@ function Main(input) {
 }
 
 // Don't edit this line!
-Main(require("fs").readFileSync("/dev/stdin", "utf8"));
-
+try {
+    Main(require("fs").readFileSync("/dev/stdin", "utf8"));
+} catch (e) {
+    // ignore, so importing in local unit tests would work
+}
