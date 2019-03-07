@@ -18,6 +18,7 @@ describe("generic functions", function () {
         arrays.map(arr => myFunction<string | number>(arr)); // reference: https://stackoverflow.com/a/54250121/10734272
 
         // this give error?
+        // @ts-ignore
         arrays.map(arr => myFunction(arr));
     });
 });
