@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2015",
     "sourceMap": true,
     "target": "es5",
     "experimentalDecorators": true,
