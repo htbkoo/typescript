@@ -1,6 +1,6 @@
 {
   "name": "hey-typescript-hg",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "express": "latest",
@@ -8,34 +8,23 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
+    "@types/jest": "^24.0.11",
     "@types/mocha": "^5.2.4",
     "@types/node": "^10.5.2",
     "chai": "latest",
+    "jest": "^24.5.0",
     "jquery": "latest",
     "lodash": "^4.17.10",
     "mocha": "latest",
     "qunit": "latest",
     "qunit-parameterize": "latest",
     "qunitjs": "latest",
+    "ts-jest": "^24.0.0",
     "ts-node": "latest",
-    "typescript": "latest"
+    "typescript": "^3.3.4000"
   },
   "scripts": {
     "test": "mocha --opts mocha.opts",
     "postinstall": "typings install"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }
