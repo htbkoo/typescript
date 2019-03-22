@@ -29,8 +29,10 @@ function bigSorting(unsorted: string[]): string[] {
     return unsorted.sort((a, b) => {
         if (a.length === b.length) {
             for (let i = 0; i < a.length; ++i) {
-                if (a.charAt(i) !== b.charAt(i)) {
-                    return parseInt(a.charAt(i)) - parseInt(b.charAt(i));
+                const aDigit = parseInt(a.charAt(i));
+                const bDigit = parseInt(b.charAt(i));
+                if (aDigit !== bDigit) {
+                    return aDigit - bDigit;
                 }
             }
         } else {
