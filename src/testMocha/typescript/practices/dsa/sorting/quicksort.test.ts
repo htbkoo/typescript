@@ -1,6 +1,15 @@
 import * as chai from "chai";
 import {quickSort} from "../../../../../main/typescript/practices/dsa/sorting/quicksort";
 
+type T = string | number;
+
+interface TestCase {
+    inputArray: Array<T>,
+    expected: Array<T>,
+    confirmUnmodified: Array<T>,
+    compareFn?: (val1: T, val2: T) => number
+}
+
 describe("quick sort", function () {
     [
         {inputArray: [], expected: [], confirmUnmodified: []},
@@ -14,13 +23,11 @@ describe("quick sort", function () {
             confirmUnmodified: ["b", "a"],
             compareFn: (str1, str2) => ((str1 == str2) ? 0 : ((str1 > str2) ? 1 : -1))
         },
-    ].forEach(({inputArray, expected, confirmUnmodified, compareFn}) =>
+    ].forEach(({inputArray, expected, confirmUnmodified, compareFn}: TestCase) =>
         it(`should sort the generic array ${JSON.stringify(inputArray)}`, function () {
             // given
             // when
-            let actual = compareFn
-                ? quickSort<string | number>(inputArray, compareFn)
-                : quickSort<string | number>(inputArray);
+            let actual = quickSort(inputArray, compareFn);
 
             // then
             chai.expect(actual).to.deep.equal(expected, "array should be sorted");
