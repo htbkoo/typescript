@@ -17,6 +17,8 @@ describe("quick sort", function () {
         {inputArray: [1, 2], expected: [1, 2], confirmUnmodified: [1, 2]},
         {inputArray: [2, 1], expected: [1, 2], confirmUnmodified: [2, 1]},
         {inputArray: [2, 5, 3, 4, 1], expected: [1, 2, 3, 4, 5], confirmUnmodified: [2, 5, 3, 4, 1]},
+        {inputArray: [3, 5, 1, 4, 2, 6], expected: [1, 2, 3, 4, 5, 6], confirmUnmodified: [3, 5, 1, 4, 2, 6]},
+        {inputArray: [3, 5, 1, 7, 4, 2, 6], expected: [1, 2, 3, 4, 5, 6, 7], confirmUnmodified: [3, 5, 1, 7, 4, 2, 6]},
         {
             inputArray: ["b", "a"],
             expected: ["a", "b"],
