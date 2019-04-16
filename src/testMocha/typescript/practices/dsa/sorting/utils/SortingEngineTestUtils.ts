@@ -1,5 +1,5 @@
 import * as chai from "chai";
-import SortingEngine from "../../../../../main/typescript/practices/dsa/sorting/SortingEngine";
+import SortingEngine from "../../../../../../main/typescript/practices/dsa/sorting/SortingEngine";
 
 type T = string | number;
 
