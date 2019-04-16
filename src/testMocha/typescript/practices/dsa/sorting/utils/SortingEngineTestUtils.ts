@@ -42,12 +42,12 @@ const TestsParams = {
 
 type TestSuiteType = keyof typeof TestsParams;
 
-type Options = { argumentsList?: ArrayLike<any>, enabledTestSuite?: Array<TestSuiteType> };
+type Options = { argumentsList?: ArrayLike<any>, enabledTestSuites?: Array<TestSuiteType> };
 
 export function runDefaultTestCases(EngineClass: Function, options?: Options) {
-    const {argumentsList, enabledTestSuite} = {argumentsList: NO_ARGS, enabledTestSuite: ["DEFAULT",], ...options};
+    const {argumentsList, enabledTestSuites} = {argumentsList: NO_ARGS, enabledTestSuites: ["DEFAULT",], ...options};
 
-    enabledTestSuite.forEach(
+    enabledTestSuites.forEach(
         suiteName =>
             describe(`TestSuite - ${suiteName}`, function () {
                 TestsParams[suiteName].forEach(({inputArray, expected, confirmUnmodified, compareFn}: TestCaseParams) =>
