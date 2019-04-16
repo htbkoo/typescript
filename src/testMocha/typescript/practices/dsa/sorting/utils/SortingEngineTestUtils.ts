@@ -3,6 +3,9 @@ import SortingEngine from "../../../../../../main/typescript/practices/dsa/sorti
 import rawHeapTestCases from "../../heap/resources/heapTestCases.json";
 
 type T = string | number;
+type ArgumentsList = ArrayLike<any>;
+type TestSuiteType = keyof typeof TestCases;
+type Options = { argumentsList?: ArgumentsList, enabledTestSuites?: Array<TestSuiteType> };
 
 interface TestCase {
     inputArray: Array<T>,
@@ -10,8 +13,6 @@ interface TestCase {
     confirmUnmodified: Array<T>,
     compareFn?: (val1: T, val2: T) => number
 }
-
-const NO_ARGS = [];
 
 const DEFAULT_TEST_CASES: TestCase[] = [
     {inputArray: [2, 5, 3, 4, 1], expected: [1, 2, 3, 4, 5], confirmUnmodified: [2, 5, 3, 4, 1]},
@@ -40,12 +41,10 @@ const TestCases = {
     HEAP_SORT: heapSortTestCases
 };
 
-type TestSuiteType = keyof typeof TestCases;
-
-type Options = { argumentsList?: ArrayLike<any>, enabledTestSuites?: Array<TestSuiteType> };
+const defaultOptions: Options = {argumentsList: [], enabledTestSuites: ["DEFAULT",]};
 
 export function runDefaultTestCases(EngineClass: Function, options?: Options) {
-    const {argumentsList, enabledTestSuites} = {argumentsList: NO_ARGS, enabledTestSuites: ["DEFAULT",], ...options};
+    const {argumentsList, enabledTestSuites} = {...defaultOptions, ...options};
 
     enabledTestSuites.forEach(
         suiteName =>
