@@ -4,6 +4,8 @@
     "sourceMap": true,
     "target": "es6",
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     // For --target ES5: DOM,ES5,ScriptHost
     // For --target ES6: DOM,ES6,DOM.Iterable,ScriptHost
     "lib": ["dom", "es6","dom.iterable", "scripthost", "es2017.string"]
