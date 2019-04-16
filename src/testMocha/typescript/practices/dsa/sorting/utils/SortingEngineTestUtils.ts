@@ -4,7 +4,7 @@ import rawHeapTestCases from "../../heap/resources/heapTestCases.json";
 
 type T = string | number;
 
-interface TestCaseParams {
+interface TestCase {
     inputArray: Array<T>,
     expected: Array<T>,
     confirmUnmodified: Array<T>,
@@ -13,7 +13,7 @@ interface TestCaseParams {
 
 const NO_ARGS = [];
 
-const DEFAULT_TEST_CASES_PARAMS: TestCaseParams[] = [
+const DEFAULT_TEST_CASES: TestCase[] = [
     {inputArray: [2, 5, 3, 4, 1], expected: [1, 2, 3, 4, 5], confirmUnmodified: [2, 5, 3, 4, 1]},
     {inputArray: [], expected: [], confirmUnmodified: []},
     {inputArray: [1], expected: [1], confirmUnmodified: [1]},
@@ -29,18 +29,18 @@ const DEFAULT_TEST_CASES_PARAMS: TestCaseParams[] = [
     },
 ];
 
-const heapSortTestCasesParams: TestCaseParams[] = rawHeapTestCases.map(({input, expected}) => ({
+const heapSortTestCases: TestCase[] = rawHeapTestCases.map(({input, expected}) => ({
     inputArray: input,
     expected,
     confirmUnmodified: input.slice()
 }));
 
-const TestsParams = {
-    DEFAULT: DEFAULT_TEST_CASES_PARAMS,
-    HEAP_SORT: heapSortTestCasesParams
+const TestCases = {
+    DEFAULT: DEFAULT_TEST_CASES,
+    HEAP_SORT: heapSortTestCases
 };
 
-type TestSuiteType = keyof typeof TestsParams;
+type TestSuiteType = keyof typeof TestCases;
 
 type Options = { argumentsList?: ArrayLike<any>, enabledTestSuites?: Array<TestSuiteType> };
 
@@ -50,7 +50,7 @@ export function runDefaultTestCases(EngineClass: Function, options?: Options) {
     enabledTestSuites.forEach(
         suiteName =>
             describe(`TestSuite - ${suiteName}`, function () {
-                TestsParams[suiteName].forEach(({inputArray, expected, confirmUnmodified, compareFn}: TestCaseParams) =>
+                TestCases[suiteName].forEach(({inputArray, expected, confirmUnmodified, compareFn}: TestCase) =>
                     it(`should sort the generic array ${JSON.stringify(inputArray)} with ${EngineClass.name}`, function () {
                         // given
                         const engine: SortingEngine = Reflect.construct(EngineClass, argumentsList);
