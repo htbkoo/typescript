@@ -91,10 +91,6 @@ class Configuration {
         return new Configuration([], n);
     }
 
-    public static firstQueen({r, c, n}: { r: number, c: number, n: number }) {
-        return new Configuration([Queen.fromCoordinates({r, c})], n);
-    }
-
     public withQueen(coordinates: Coordinates) {
         const newQueens = this.queens.slice();
         newQueens.push(Queen.fromCoordinates(coordinates));
@@ -128,7 +124,6 @@ function placeQueen({config, n, need, startRow = 0}: { config: Configuration, n:
     } else {
         return _.range(startRow, n).map(r => {
             return _.range(n).map(c => {
-                const breakPoint = need;
                 if (config.canPlaceNewAt({r, c})) {
                     return placeQueen({config: config.withQueen({r, c}), n, need: need - 1, startRow: r});
                 } else {
