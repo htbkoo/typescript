@@ -70,12 +70,8 @@ class Queen {
 }
 
 class Chess {
-    private static readonly QUEEN = "Q";
-    private static readonly BLANK = ".";
-
-    public static asString(isQueen: boolean): string {
-        return isQueen ? Chess.QUEEN : Chess.BLANK;
-    }
+    static readonly QUEEN = "Q";
+    static readonly BLANK = ".";
 }
 
 class Configuration {
@@ -98,11 +94,11 @@ class Configuration {
     }
 
     public asString(): Array<string> {
-        const board: boolean[][] = _.range(this.n).map(() => _.range(this.n).map(() => false));
+        const board: string[][] = _.range(this.n).map(() => _.range(this.n).map(() => Chess.BLANK));
 
-        this.queens.forEach(queen => board[queen.r][queen.c] = true);
+        this.queens.forEach(queen => board[queen.r][queen.c] = Chess.QUEEN);
 
-        return board.map(row => row.map(position => Chess.asString(position)).join(""));
+        return board.map(row => row.join(""));
     }
 
     public canPlaceNewAt(coordinates: Coordinates): boolean {
