@@ -32,7 +32,7 @@ export function runDefaultTestCases(EngineClass: Function, argumentsList: ArrayL
     return DEFAULT_TEST_CASES_PARAMS.forEach(({inputArray, expected, confirmUnmodified, compareFn}: TestCaseParams) =>
         it(`should sort the generic array ${JSON.stringify(inputArray)} with ${EngineClass.name}`, function () {
             // given
-            const engine: SortingEngine<T> = Reflect.construct(EngineClass, argumentsList);
+            const engine: SortingEngine = Reflect.construct(EngineClass, argumentsList);
 
             // when
             const actual = engine.sort(inputArray, compareFn);

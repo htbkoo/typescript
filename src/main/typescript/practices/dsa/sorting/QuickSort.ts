@@ -1,6 +1,6 @@
 import SortingEngine, {Comparator, DEFAULT_COMPARATOR} from "./SortingEngine";
 
-export class QuickSort<T> implements SortingEngine<T> {
+export class QuickSort implements SortingEngine {
     sort<T>(arr: Array<T>, compareFn?: (a: T, b: T) => number): Array<T> {
         return quickSort(arr, compareFn);
     }
