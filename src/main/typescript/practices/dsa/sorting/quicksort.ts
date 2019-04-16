@@ -1,6 +1,12 @@
-import {Comparator, DEFAULT_COMPARATOR} from "./SortingEngine";
+import SortingEngine, {Comparator, DEFAULT_COMPARATOR} from "./SortingEngine";
 
-export function quickSort<T>(arr: Array<T>, compareFn: Comparator<T> = DEFAULT_COMPARATOR): Array<T> {
+export class QuickSort<T> implements SortingEngine<T> {
+    sort<T>(arr: Array<T>, compareFn?: (a: T, b: T) => number): Array<T> {
+        return quickSort(arr, compareFn);
+    }
+}
+
+function quickSort<T>(arr: Array<T>, compareFn: Comparator<T> = DEFAULT_COMPARATOR): Array<T> {
     const arr_copy = arr.slice();
     quickSortImpl({
         arr: arr_copy,
