@@ -118,15 +118,19 @@ function placeQueen({config, n, need, startRow = 0}: { config: Configuration, n:
     if (need === 0) {
         return [config];
     } else {
-        return _.range(startRow, n).map(r => {
-            return _.range(n).map(c => {
-                if (config.canPlaceNewAt({r, c})) {
-                    return placeQueen({config: config.withQueen({r, c}), n, need: need - 1, startRow: r});
-                } else {
-                    return [];
-                }
-            }).reduce(flattenArray, [])
-        }).reduce(flattenArray, []);
+        return _.range(startRow, n).map(r =>
+            _.range(n).map(c =>
+                toAllPossibleConfigurations({r, c})
+            ).reduce(flattenArray, [])
+        ).reduce(flattenArray, []);
+    }
+
+    function toAllPossibleConfigurations({r, c}) {
+        if (config.canPlaceNewAt({r, c})) {
+            return placeQueen({config: config.withQueen({r, c}), n, need: need - 1, startRow: r});
+        } else {
+            return [];
+        }
     }
 }
 
