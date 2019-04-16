@@ -111,23 +111,24 @@ class Configuration {
  * @return {string[][]}
  */
 const solveNQueens = function (n: number): string[][] {
-    return placeQueen({config: Configuration.empty(n), n, need: n}).map(configuration => configuration.asString());
+    return allConfigs({config: Configuration.empty(n), n, need: n})
+        .map(config => config.asString());
 };
 
-function placeQueen({config, n, need, startRow = 0}: { config: Configuration, n: number, need: number, startRow?: number }): Configuration[] {
+function allConfigs({config, n, need, startRow = 0}: { config: Configuration, n: number, need: number, startRow?: number }): Configuration[] {
     if (need === 0) {
         return [config];
     } else {
         return _.range(startRow, n).map(r =>
             _.range(n).map(c =>
-                toAllPossibleConfigurations({r, c})
+                toConfigsWithQueenAt({r, c})
             ).reduce(flattenArray, [])
         ).reduce(flattenArray, []);
     }
 
-    function toAllPossibleConfigurations({r, c}) {
+    function toConfigsWithQueenAt({r, c}) {
         if (config.canPlaceNewAt({r, c})) {
-            return placeQueen({config: config.withQueen({r, c}), n, need: need - 1, startRow: r});
+            return allConfigs({config: config.withQueen({r, c}), n, need: need - 1, startRow: r});
         } else {
             return [];
         }
