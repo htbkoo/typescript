@@ -17,9 +17,9 @@ export class MergeSort implements SortingEngine {
     }
 
     private merge<T>({arr, compareFn, mid, left, right}: { arr: T[]; compareFn: (a: T, b: T) => number; left: number; mid: number; right: number }) {
-        const helper = arr.slice(left, right + 1);
-        const leftLast = mid - left, helperLast = helper.length - 1;
+        const leftLast = mid - left, helperLast = right - left;
         let current = left, helperLeft = 0, helperRight = leftLast + 1;
+        const helper = arr.slice(left, right + 1);
         while ((helperLeft <= leftLast) && (helperRight <= helperLast)) {
             const elementLeft = helper[helperLeft], elementRight = helper[helperRight];
             if (compareFn(elementLeft, elementRight) <= 0) {
