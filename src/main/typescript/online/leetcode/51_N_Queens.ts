@@ -77,20 +77,31 @@ class Chess {
 class Configuration {
     private readonly queens: ReadonlyArray<Queen>;
     private readonly n: number;
+    private readonly _remainingRows: Set<number>;
+    private readonly _remainingCols: Set<number>;
 
-    constructor(queens: Array<Queen>, n: number) {
+    constructor(queens: Array<Queen>, n: number, remainingRows: Set<number>, remainingCols: Set<number>) {
         this.queens = queens;
         this.n = n;
+        this._remainingRows = remainingRows;
+        this._remainingCols = remainingCols;
     }
 
     public static empty(n: number) {
-        return new Configuration([], n);
+        return new Configuration([], n, this.allPossible(n), this.allPossible(n));
     }
 
     public withQueen(coordinates: Coordinates) {
         const newQueens = this.queens.slice();
         newQueens.push(Queen.fromCoordinates(coordinates));
-        return new Configuration(newQueens, this.n);
+
+        const remainingRows = new Set(this._remainingRows);
+        remainingRows.delete(coordinates.r);
+
+        const remainingCols = new Set(this._remainingCols);
+        remainingCols.delete(coordinates.c);
+
+        return new Configuration(newQueens, this.n, remainingRows, remainingCols);
     }
 
     public asString(): Array<string> {
@@ -103,6 +114,18 @@ class Configuration {
 
     public canPlaceNewAt(coordinates: Coordinates): boolean {
         return this.queens.every(queen => queen.isNotAttacking(coordinates));
+    }
+
+    public remainingRows(): Array<number> {
+        return [...this._remainingRows];
+    }
+
+    public remainingCols(): Array<number> {
+        return [...this._remainingCols];
+    }
+
+    private static allPossible(n: number): Set<number> {
+        return new Set(_.range(n));
     }
 }
 
@@ -119,6 +142,8 @@ function allConfigs({config, n, need, startRow = 0}: { config: Configuration, n:
     if (need === 0) {
         return [config];
     } else {
+        config.remainingRows();
+        config.remainingCols();
         return _.range(startRow, n).map(r =>
             _.range(n).map(c =>
                 toConfigsWithQueenAt({r, c})
