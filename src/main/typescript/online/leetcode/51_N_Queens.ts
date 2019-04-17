@@ -27,144 +27,49 @@ Explanation: There exist two distinct solutions to the 4-queens puzzle as shown 
 
 import _ from "lodash";
 
-interface Coordinates {
-    r: Readonly<number>;
-    c: Readonly<number>;
-}
-
-class Queen {
-    readonly r: Readonly<number>;
-    readonly c: Readonly<number>;
-
-    constructor({r, c}: Coordinates) {
-        this.r = r;
-        this.c = c;
-    }
-
-    public static fromCoordinates(coordinates: Coordinates): Queen {
-        return new Queen(coordinates);
-    }
-
-    isNotAttacking(other: Coordinates) {
-        return !this.isSameRow(other)
-            && !this.isSameColumn(other)
-            && !this.isSameRightUpDiagonal(other)
-            && !this.isSameRightDownDiagonal(other);
-    }
-
-    private isSameRow(other: Coordinates) {
-        return this.r === other.r;
-    }
-
-    private isSameColumn(other: Coordinates) {
-        return this.c === other.c;
-    }
-
-    private isSameRightUpDiagonal(other: Coordinates) {
-        return (this.r + this.c) === (other.r + other.c);
-    }
-
-    private isSameRightDownDiagonal(other: Coordinates) {
-        return (this.r - this.c) === (other.r - other.c);
-    }
-}
-
-class Chess {
-    static readonly QUEEN = "Q";
-    static readonly BLANK = ".";
-}
-
-class Configuration {
-    private readonly queens: ReadonlyArray<Queen>;
-    private readonly n: number;
-    private readonly _remainingRows: Set<number>;
-    private readonly _remainingCols: Set<number>;
-
-    constructor(queens: Array<Queen>, n: number, remainingRows: Set<number>, remainingCols: Set<number>) {
-        this.queens = queens;
-        this.n = n;
-        this._remainingRows = remainingRows;
-        this._remainingCols = remainingCols;
-    }
-
-    public static empty(n: number) {
-        return new Configuration([], n, this.allPossible(n), this.allPossible(n));
-    }
-
-    public withQueen(coordinates: Coordinates) {
-        const newQueens = this.queens.slice();
-        newQueens.push(Queen.fromCoordinates(coordinates));
-
-        const remainingRows = Configuration.remaining(this._remainingRows, coordinates.r);
-        const remainingCols = Configuration.remaining(this._remainingCols, coordinates.c);
-
-        return new Configuration(newQueens, this.n, remainingRows, remainingCols);
-    }
-
-    public asString(): Array<string> {
-        const board: string[][] = _.range(this.n).map(() => _.range(this.n).map(() => Chess.BLANK));
-
-        this.queens.forEach(queen => board[queen.r][queen.c] = Chess.QUEEN);
-
-        return board.map(row => row.join(""));
-    }
-
-    public canPlaceNewAt(coordinates: Coordinates): boolean {
-        return this.queens.every(queen => queen.isNotAttacking(coordinates));
-    }
-
-    public remainingRows(): Array<number> {
-        return [...this._remainingRows];
-    }
-
-    public remainingCols(): Array<number> {
-        return [...this._remainingCols];
-    }
-
-    private static allPossible(n: number): Set<number> {
-        return new Set(_.range(n));
-    }
-
-    private static remaining(set: Set<number>, value: Readonly<number>) {
-        const remaining = new Set(set);
-        remaining.delete(value);
-        return remaining;
-    }
-}
-
+const BLANK = ".", QUEEN = "Q";
 /**
  * @param {number} n
  * @return {string[][]}
  */
 const solveNQueens = function (n: number): string[][] {
-    return allConfigs({config: Configuration.empty(n), n, need: n})
-        .map(config => config.asString());
+    return dfs({n, queens: [], rcSums: [], rcDiffs: []}).map(solutionToString);
+
+    function solutionToString(solution: number[]): string[] {
+        return solution.map(rowToString);
+    }
+
+    function rowToString(row: number): string {
+        return _.repeat(BLANK, row) + QUEEN + _.repeat(BLANK, n - 1 - row);
+    }
 };
 
-function allConfigs({config, n, need, startRow = 0}: { config: Configuration, n: number, need: number, startRow?: number }): Configuration[] {
-    if (need === 0) {
-        return [config];
+function dfs({n, queens, rcSums, rcDiffs}: { n: number, queens: Array<number>, rcSums: Array<number>, rcDiffs: Array<number> }): Array<Array<number>> {
+    const r = queens.length;
+    if (r === n) {
+        return [queens];
     } else {
-        return config.remainingRows()
-            .filter(r => r >= startRow)
-            .map(r =>
-                config.remainingCols().map(c =>
-                    toConfigsWithQueenAt({r, c})
-                ).reduce(flattenArray, [])
-            ).reduce(flattenArray, []);
+        return _.range(n).map(c => {
+            const sum = r + c;
+            const diff = r - c;
+            if (canPlaceNewQueen()) {
+                return dfs({n, queens: queens.concat(c), rcSums: rcSums.concat(sum), rcDiffs: rcDiffs.concat(diff)});
+            } else {
+                return [];
+            }
+
+            function canPlaceNewQueen(): boolean {
+                const isColumnFree = queens.every(v => v !== c);
+                const isRcSumFree = rcSums.every(v => v !== sum);
+                const isRcDiffFree = rcDiffs.every(v => v !== diff);
+                return isColumnFree && isRcSumFree && isRcDiffFree;
+            }
+        }).reduce(flattenArray, []);
     }
 
-    function toConfigsWithQueenAt({r, c}) {
-        if (config.canPlaceNewAt({r, c})) {
-            return allConfigs({config: config.withQueen({r, c}), n, need: need - 1, startRow: r});
-        } else {
-            return [];
-        }
+    function flattenArray(prev: number[][], curr: number[][]): number[][] {
+        return prev.concat(curr);
     }
-}
-
-function flattenArray(prev, curr) {
-    return prev.concat(curr);
 }
 
 export default solveNQueens;
