@@ -33,21 +33,21 @@ const BLANK = ".", QUEEN = "Q";
  * @return {number}
  */
 const totalNQueens = function (n: number): number {
-    return dfs({n, queens: [], rcSums: [], rcDiffs: []}).length;
+    return dfs({n, queens: [], rcSums: [], rcDiffs: []});
 };
 
-function dfs({n, queens, rcSums, rcDiffs}: { n: number, queens: Array<number>, rcSums: Array<number>, rcDiffs: Array<number> }): Array<Array<number>> {
+function dfs({n, queens, rcSums, rcDiffs}: { n: number, queens: Array<number>, rcSums: Array<number>, rcDiffs: Array<number> }): number {
     const r = queens.length;
     if (r === n) {
-        return [queens];
+        return 1;
     } else {
-        return _.range(n).map(c => {
+        return _.sum(_.range(n).map(c => {
             const sum = r + c;
             const diff = r - c;
             if (canPlaceNewQueen()) {
                 return dfs({n, queens: queens.concat(c), rcSums: rcSums.concat(sum), rcDiffs: rcDiffs.concat(diff)});
             } else {
-                return [];
+                return 0;
             }
 
             function canPlaceNewQueen(): boolean {
@@ -56,7 +56,7 @@ function dfs({n, queens, rcSums, rcDiffs}: { n: number, queens: Array<number>, r
                 const isRcDiffFree = rcDiffs.every(v => v !== diff);
                 return isColumnFree && isRcSumFree && isRcDiffFree;
             }
-        }).reduce(flattenArray, []);
+        }));
     }
 
     function flattenArray(prev: number[][], curr: number[][]): number[][] {
