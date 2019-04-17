@@ -40,16 +40,14 @@ import _ from "lodash";
 const NO_GREATER_ELEMENT = -1;
 
 const nextGreaterElement = function (nums1: number[], nums2: number[]): number[] {
-    const lengthNum2 = nums2.length;
-    nums2.sort((a, b) => a - b);
-
     return nums1.map(toNextGreatElementIfPossible);
 
     function toNextGreatElementIfPossible(num) {
-        const index = _.sortedIndex(nums2, num);
+        const index = _.indexOf(nums2, num);
 
-        if (index < lengthNum2 - 1) {
-            return nums2[index + 1];
+        const element = _.find(nums2, o => o > num, index);
+        if (element) {
+            return element;
         } else {
             return NO_GREATER_ELEMENT;
         }
