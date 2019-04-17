@@ -40,17 +40,26 @@ import _ from "lodash";
 const NO_GREATER_ELEMENT = -1;
 
 const nextGreaterElement = function (nums1: number[], nums2: number[]): number[] {
-    return nums1.map(toNextGreatElementIfPossible);
+    const nextGreaterElements = buildNextGreaterElements();
 
-    function toNextGreatElementIfPossible(num) {
-        const index = _.indexOf(nums2, num);
+    return nums1.map(num => nextGreaterElements[num]);
 
-        const element = _.find(nums2, o => o > num, index);
-        if (element) {
-            return element;
-        } else {
-            return NO_GREATER_ELEMENT;
-        }
+    function buildNextGreaterElements() {
+        const lengthNums2 = nums2.length;
+        const lastNums2Element = nums2[lengthNums2 - 1];
+        const nextGreaterElements = {};
+        nextGreaterElements[lastNums2Element] = NO_GREATER_ELEMENT;
+        const stack = [lastNums2Element];
+        _.rangeRight(lengthNums2 - 1).forEach(index => {
+            const element = nums2[index];
+            while (stack.length > 0 && stack[stack.length - 1] <= element) {
+                stack.pop();
+            }
+            nextGreaterElements[element] = (stack.length === 0) ? NO_GREATER_ELEMENT : stack[stack.length - 1];
+            stack.push(element);
+        });
+
+        return nextGreaterElements;
     }
 };
 
