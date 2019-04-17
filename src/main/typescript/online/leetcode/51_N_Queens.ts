@@ -95,11 +95,8 @@ class Configuration {
         const newQueens = this.queens.slice();
         newQueens.push(Queen.fromCoordinates(coordinates));
 
-        const remainingRows = new Set(this._remainingRows);
-        remainingRows.delete(coordinates.r);
-
-        const remainingCols = new Set(this._remainingCols);
-        remainingCols.delete(coordinates.c);
+        const remainingRows = Configuration.remaining(this._remainingRows, coordinates.r);
+        const remainingCols = Configuration.remaining(this._remainingCols, coordinates.c);
 
         return new Configuration(newQueens, this.n, remainingRows, remainingCols);
     }
@@ -127,6 +124,12 @@ class Configuration {
     private static allPossible(n: number): Set<number> {
         return new Set(_.range(n));
     }
+
+    private static remaining(set: Set<number>, value: Readonly<number>) {
+        const remaining = new Set(set);
+        remaining.delete(value);
+        return remaining;
+    }
 }
 
 /**
@@ -142,13 +145,13 @@ function allConfigs({config, n, need, startRow = 0}: { config: Configuration, n:
     if (need === 0) {
         return [config];
     } else {
-        config.remainingRows();
-        config.remainingCols();
-        return _.range(startRow, n).map(r =>
-            _.range(n).map(c =>
-                toConfigsWithQueenAt({r, c})
-            ).reduce(flattenArray, [])
-        ).reduce(flattenArray, []);
+        return config.remainingRows()
+            .filter(r => r >= startRow)
+            .map(r =>
+                config.remainingCols().map(c =>
+                    toConfigsWithQueenAt({r, c})
+                ).reduce(flattenArray, [])
+            ).reduce(flattenArray, []);
     }
 
     function toConfigsWithQueenAt({r, c}) {
