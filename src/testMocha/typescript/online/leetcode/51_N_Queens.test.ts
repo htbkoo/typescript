@@ -11,15 +11,18 @@ describe("51. N-Queens", function () {
             },
             {
                 input: 4, output: [
-                    [".Q..",  // Solution 1
+                    [
+                        ".Q..",  // Solution 1
                         "...Q",
                         "Q...",
-                        "..Q."],
-
-                    ["..Q.",  // Solution 2
+                        "..Q."
+                    ],
+                    [
+                        "..Q.",  // Solution 2
                         "Q...",
                         "...Q",
-                        ".Q.."]
+                        ".Q.."
+                    ]
                 ]
             },
             {
