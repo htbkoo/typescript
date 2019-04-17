@@ -36,20 +36,23 @@ import _ from "lodash";
  * @param {number[]} nums2
  * @return {number[]}
  */
+
+const NO_GREATER_ELEMENT = -1;
+
 const nextGreaterElement = function (nums1: number[], nums2: number[]): number[] {
     const lengthNum2 = nums2.length;
-    const withIndex = nums2.map((value, index) => ({value, index}));
-    withIndex.sort((a, b) => a.value - b.value);
+    nums2.sort((a, b) => a - b);
 
     return nums1.map(toNextGreatElementIfPossible);
 
     function toNextGreatElementIfPossible(num) {
-        const index = _.sortedIndexBy(withIndex, num, 'value');
-        if (index < lengthNum2) {
-            return withIndex[index + 1].value;
+        const index = _.sortedIndex(nums2, num);
+
+        if (index < lengthNum2 - 1) {
+            return nums2[index + 1];
+        } else {
+            return NO_GREATER_ELEMENT;
         }
-        // (num => _.findIndex(withIndex, ({}) =));
-        // withIndex.indexOf()
     }
 };
 
