@@ -25,17 +25,12 @@ Note:
  * @return {string[]}
  */
 const letterCasePermutation = function (S: string): string[] {
-    if (S.length === 0) {
-        return [];
-    } else {
-        return permutation(S, 1, withCharacter("", S.charAt(0)));
-    }
+    return permutation(S, 0, [""]).filter(candidate => candidate.length > 0);
 };
 
 function permutation(S: string, index: number, candidates: string[]): string[] {
     if (index < S.length) {
         const character = S.charAt(index);
-
         return candidates.map(candidate => permutation(S, index + 1, withCharacter(candidate, character)))
             .reduce((arr, results) => arr.concat(results), []);
     } else {
