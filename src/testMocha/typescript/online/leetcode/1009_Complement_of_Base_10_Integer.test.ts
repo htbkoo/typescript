@@ -33,6 +33,10 @@ describe("1009. Complement of Base 10 Integer", function () {
                 input: 3,
                 output: 0
             },
+            {
+                input: 4,
+                output: 3
+            },
         ].forEach(({input, output}) =>
             it(`bitwiseComplement(${JSON.stringify(input)})=${JSON.stringify(output)}`, function () {
                 // given

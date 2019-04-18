@@ -43,9 +43,8 @@ const bitwiseComplement = function (N: number): number {
     if (N === 0) {
         return 1;
     } else {
-        const numBits = Math.ceil(Math.log2(N));
-        const flippedN = ~N;
-        return flippedN >>> (32 - numBits) & flippedN;
+        const numBits = Math.floor(Math.log2(N));
+        return Math.pow(2, numBits + 1) - 1 - N;
     }
 };
 
