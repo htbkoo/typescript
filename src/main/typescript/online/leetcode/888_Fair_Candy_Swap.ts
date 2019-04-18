@@ -52,10 +52,21 @@ import * as _ from "lodash";
  * @return {number[]}
  */
 const fairCandySwap = function (A: number[], B: number[]): number[] {
+    let setA = new Set(A), setB = new Set(B);
+
+    let swapped = false;
+    if (setA.size > setB.size) {
+        let temp: any = A;
+        A = B;
+        B = temp;
+        temp = setA;
+        setA = setB;
+        setB = temp;
+        swapped = true;
+    }
+
     const sumA = _.sum(A), sumB = _.sum(B);
     const aliceNeed: number = (sumB - sumA) / 2;
-
-    const setA = new Set(A), setB = new Set(B);
 
     let answer = [];
     [...setA].some(a => {
@@ -67,7 +78,7 @@ const fairCandySwap = function (A: number[], B: number[]): number[] {
             return false;
         }
     });
-    return answer;
+    return swapped ? [answer[1], answer[0]] : answer;
 
     function sort(arr: number[]) {
         arr.sort((a, b) => a - b);
