@@ -36,21 +36,28 @@ import * as _ from "lodash";
  */
 const minFallingPathSum = function (A: number[][]): number {
     const height = A.length;
-    if (height === 0) {
-        return 0;
-    } else {
+    if (height > 0) {
         const width = A[0].length;
+
         let prevRow = A[0].slice();
-        _.range(1, height).forEach(updatePrevRow);
+
+        _.range(1, height).forEach(row => {
+            prevRow = A[row].map((a, col) => a + _.min(_.range(-1, 2).map(d => safeGet(col + d))));
+        });
+
         return _.min(prevRow);
 
-        function updatePrevRow(row) {
-            prevRow = A[row].map((num, col) => num + getMinFromPrevRow(col))
+        function safeGet(col: number) {
+            const isWithinMatrix = (col >= 0) && (col < width);
+            if (isWithinMatrix) {
+                return prevRow[col];
+            } else {
+                return Number.MAX_SAFE_INTEGER;
+            }
         }
 
-        function getMinFromPrevRow(col) {
-            return _.min(_.range(Math.max(0, col - 1), Math.min(width, col + 1 + 1)).map(i => prevRow[i]));
-        }
+    } else {
+        return 0;
     }
 };
 

@@ -5,6 +5,7 @@ import minFallingPathSum from "../../../../main/typescript/online/leetcode/931_M
 describe("931. Minimum Falling Path Sum", function () {
     describe('should return the minimum sum of a falling path through A', function () {
         [
+            {input: [[51, 24], [-50, 82]], output: -26},
             {input: [[1, 2, 3], [4, 5, 6], [7, 8, 9]], output: 12},
         ].forEach(({input, output}) =>
             it(`minFallingPathSum(${JSON.stringify(input)})=${JSON.stringify(output)}`, function () {
