@@ -39,22 +39,20 @@ const minFallingPathSum = function (A: number[][]): number {
     if (height > 0) {
         const width = A[0].length;
 
-        let currentRow = A[0].slice();
-        let lastRow = [];
+        let prevRow = A[0].slice();
 
         _.range(1, height).forEach(row => {
-            currentRow = A[row].map((a, col)=> a+ Math.max(safeGet(row,col-1), safeGet(row,col), safeGet(row,col+1)))
-            lastRow = currentRow;
+            prevRow = A[row].map((a, col) => a + _.min(_.range(-1, 2).map(d => safeGet(col + d))));
         });
 
-        _.max(_.range(width).map())
+        return _.min(prevRow);
 
-        function safeGet(row: number, col: number) {
-            const isWithinMatrix = (row >= 0) && (col >= 0) && (row < height) && (col < width);
+        function safeGet(col: number) {
+            const isWithinMatrix = (col >= 0) && (col < width);
             if (isWithinMatrix) {
-                return lastRow[]
+                return prevRow[col];
             } else {
-                return 0;
+                return Number.MAX_SAFE_INTEGER;
             }
         }
 
