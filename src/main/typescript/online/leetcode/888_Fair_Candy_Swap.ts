@@ -52,17 +52,16 @@ import * as _ from "lodash";
  * @return {number[]}
  */
 const fairCandySwap = function (A: number[], B: number[]): number[] {
-    sort(A);
-    sort(B);
-
     const sumA = _.sum(A), sumB = _.sum(B);
-    const aliceSurplus: number = (sumA - sumB) / 2;
+    const aliceNeed: number = (sumB - sumA) / 2;
+
+    const setA = new Set(A), setB = new Set(B);
+
     let answer = [];
-    A.some(a => {
-        const target = -(aliceSurplus - a);
-        const maybeBIndex = _.sortedIndexOf(B, target);
-        if (maybeBIndex >= 0) {
-            answer = [a, B[maybeBIndex]];
+    [...setA].some(a => {
+        const target = aliceNeed + a;
+        if (setB.has(target)) {
+            answer = [a, target];
             return true;
         } else {
             return false;
