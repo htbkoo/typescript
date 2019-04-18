@@ -9,6 +9,7 @@ describe("888. Fair Candy Swap", function () {
             {input: {A: [1, 2], B: [2, 3]}, output: [1, 2]},
             {input: {A: [2], B: [1, 3]}, output: [2, 3]},
             {input: {A: [1, 2, 5], B: [2, 4]}, output: [5, 4]},
+            {input: {A: [1, 5, 2], B: [4, 2]}, output: [5, 4]},
         ].forEach(({input, output}) =>
             it(`fairCandySwap(${JSON.stringify(input)})=${JSON.stringify(output)}`, function () {
                 // given
