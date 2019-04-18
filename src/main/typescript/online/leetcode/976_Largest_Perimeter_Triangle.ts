@@ -44,14 +44,21 @@ import * as _ from "lodash";
  */
 const largestPerimeter = function (A: number[]): number {
     A.sort((a, b) => a - b);
-    return _.max(_.range(A.length - 2).map(i => {
+
+    let answer = 0;
+
+    _.rangeRight(A.length - 2).some(i => {
         const isTriangleWithPositiveArea = A[i] + A[i + 1] > A[i + 2];
         if (isTriangleWithPositiveArea) {
-            return A[i] + A[i + 1] + A[i + 2];
+            answer = A[i] + A[i + 1] + A[i + 2];
+            return true;
         } else {
-            return 0;
+            return false;
         }
-    }));
+    });
+
+    return answer;
+
 };
 
 export default largestPerimeter;
