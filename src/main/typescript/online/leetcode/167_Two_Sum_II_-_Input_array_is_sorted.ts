@@ -19,28 +19,26 @@ Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 
 * */
 
-import * as _ from "lodash";
-
 /**
  * @param {number[]} numbers
  * @param {number} target
  * @return {number[]}
  */
 const twoSum = function (numbers: number[], target: number): number[] {
-    const n = numbers.length;
-    let answers = [];
-    numbers.some((firstNumber, index) => {
-        const firstIndex = index + 1;
-        const conjugate = target - firstNumber;
-        const secondIndex = _.sortedIndexOf(_.takeRight(numbers, n - firstIndex), conjugate);
-        if (secondIndex !== -1) {
-            answers = [firstIndex, firstIndex + secondIndex + 1];
-            return true;
+    let lo = 0, hi = numbers.length - 1;
+
+    do {
+        const sum = numbers[lo] + numbers[hi];
+        if (target === sum) {
+            return [lo + 1, hi + 1];
+        } else if (target < sum) {
+            hi--;
         } else {
-            return false;
+            lo++;
         }
-    });
-    return answers;
+    } while (lo < hi);
+
+    throw new Error("No solutions");
 };
 
 export default twoSum;
