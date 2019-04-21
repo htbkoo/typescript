@@ -37,6 +37,22 @@ const NOT_EXIST = -1;
  * @return {number}
  */
 const search = function (nums: number[], target: number): number {
+    let lo = 0, hi = nums.length - 1;
+    while (lo <= hi) {
+        const mid = Math.floor((lo + hi) / 2);
+        const midValue = nums[mid];
+        if (target === midValue) {
+            return mid;
+        } else if (target < midValue) {
+            hi = mid - 1;
+        } else {
+            lo = mid + 1;
+        }
+    }
+    return NOT_EXIST;
+};
+
+const search_recursive_approach = function (nums: number[], target: number): number {
     return searchRecursive({nums, target, lo: 0, hi: nums.length - 1});
 };
 
