@@ -29,12 +29,34 @@ Note:
 
 import * as _ from "lodash";
 
+const NOT_EXIST = -1;
+
 /**
  * @param {number[]} nums
  * @param {number} target
  * @return {number}
  */
 const search = function (nums: number[], target: number): number {
+    return searchRecursive({nums, target, lo: 0, hi: nums.length - 1});
+};
+
+function searchRecursive({nums, target, lo, hi}: { hi: number; lo: number; nums: number[]; target: number }) {
+    if (lo <= hi) {
+        const mid = Math.floor((lo + hi) / 2);
+        const midValue = nums[mid];
+        if (target === midValue) {
+            return mid;
+        } else if (target < midValue) {
+            return searchRecursive({nums, target, lo, hi: mid - 1});
+        } else {
+            return searchRecursive({nums, target, lo: mid + 1, hi});
+        }
+    } else {
+        return NOT_EXIST;
+    }
+}
+
+const search_lodash = function (nums: number[], target: number): number {
     return _.sortedIndexOf(nums, target);
 };
 
