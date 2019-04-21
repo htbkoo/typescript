@@ -51,15 +51,15 @@ const findTarget = function (root: TreeNode, k: number): boolean {
     return search({root, k, elements: new Set([])})
 };
 
-function search({root, k, min, max, elements}: { root: TreeNode, k: number, min?: number, max?: number, elements: Set<number> }): boolean {
+function search({root, k, elements}: { root: TreeNode, k: number, elements: Set<number> }): boolean {
     if (root) {
         const {val, left, right} = root;
         if (elements.has(k - val)) {
             return true;
         } else {
             elements.add(val);
-            return search({root: left, k, max: val, min, elements}) ||
-                search({root: right, k, max, min: val, elements});
+            return search({root: left, k, elements}) ||
+                search({root: right, k, elements});
         }
     } else {
         return false;
