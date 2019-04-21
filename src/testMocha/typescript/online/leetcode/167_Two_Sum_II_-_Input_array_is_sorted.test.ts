@@ -3,7 +3,7 @@ import * as chai from "chai";
 import twoSum from "../../../../main/typescript/online/leetcode/167_Two_Sum_II_-_Input_array_is_sorted";
 
 describe("167. Two Sum II - Input array is sorted", function () {
-    describe('should return the minimum sum of a falling path through A', function () {
+    describe('should return the indices of two numbers such that they add up to a specific target number', function () {
         [
             {input: {numbers: [0, 0, 3, 4], target: 0}, output: [1, 2]},
             {input: {numbers: [1, 2, 2, 4, 5], target: 4}, output: [2, 3]},
