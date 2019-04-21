@@ -6,6 +6,7 @@ describe("167. Two Sum II - Input array is sorted", function () {
     describe('should return the minimum sum of a falling path through A', function () {
         [
             {input: {numbers: [0, 0, 3, 4], target: 0}, output: [1, 2]},
+            {input: {numbers: [1, 2, 2, 4, 5], target: 4}, output: [2, 3]},
             {input: {numbers: [0, 0, 0, 0, 3, 4, 10, 10, 10, 10], target: 7}, output: [5, 6]},
             {input: {numbers: [0, 1, 3, 4], target: 3}, output: [1, 3]},
             {input: {numbers: [5, 25, 75], target: 100}, output: [2, 3]},

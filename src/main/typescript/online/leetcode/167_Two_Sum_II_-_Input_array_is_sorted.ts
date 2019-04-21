@@ -35,18 +35,10 @@ const twoSum = function (numbers: number[], target: number): number[] {
             return [lo + 1, hi + 1];
         } else if (target < sum) {
             const newIndex = _.sortedIndex(numbers, target - numbers[lo]);
-            if (target === (numbers[lo] + numbers[newIndex])) {
-                return [lo + 1, newIndex];
-            } else {
-                hi = numbers[newIndex] === numbers[hi] ? newIndex - 1 : newIndex;
-            }
+            hi = numbers[newIndex] === numbers[hi] ? newIndex - 1 : newIndex;
         } else {
             const newIndex = _.sortedIndex(numbers, target - numbers[hi]);
-            if (target === (numbers[newIndex] + numbers[hi])) {
-                return [newIndex, hi + 1];
-            } else {
-                lo = numbers[newIndex] === numbers[lo] ? newIndex + 1 : newIndex;
-            }
+            lo = numbers[newIndex] === numbers[lo] ? newIndex + 1 : newIndex;
         }
     } while (lo < hi);
 
