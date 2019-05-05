@@ -1,47 +1,17 @@
-const https = require("https");
-const fs = require('fs');
-const stream = require('stream');
+import * as https from "https";
+import * as fs from "fs";
 
-const url = "https://jsonplaceholder.typicode.com/posts/1";
+const startPage = 1;
+const endPage = 6;
 
-for (let i = 1; i <= 6; ++i) {
+for (let i = startPage; i <= endPage; ++i) {
     https.get(getUrl(i), res => {
-        // new stream.PassThrough()
-        // res.setEncoding("utf8");
-        let file = fs.createWriteStream(`./page-${i}.jpg`);
+        const file = fs.createWriteStream(`./page-${i}.jpg`);
         res.pipe(file);
-        // let body = "";
-        // res.on("data", data => {
-        //     body += data;
-        // });
-        // res.on("end", () => {
-        // body = JSON.parse(body);
-        // console.log(`page data: ${i}`);
-        // console.log(body);
-        // });
+        res.on("end", () => console.log(`downloaded page: ${i}`));
     });
 }
 
-/*
-
-https.get(getUrl(1), res => {
-    // new stream.PassThrough()
-    // res.setEncoding("utf8");
-    let file = fs.createWriteStream(`./page-${1}.jpg`);
-    res.pipe(file);
-    // let body = "";
-    // res.on("data", data => {
-    //     body += data;
-    // });
-    // res.on("end", () => {
-    // body = JSON.parse(body);
-    // console.log(`page data: ${i}`);
-    // console.log(body);
-    // });
-});
-
-*/
-
 function getUrl(page) {
-    return `https://image.slidesharecdn.com/neversplitthedifference-170626190111/95/never-split-the-difference-cheatsheet-${page}-638.jpg?cb=1520023388`;
+    return `https://image.slidesharecdn.com/neversplitthedifference-170626190111/95/never-split-the-difference-cheatsheet-${page}-638.jpg`;
 }
