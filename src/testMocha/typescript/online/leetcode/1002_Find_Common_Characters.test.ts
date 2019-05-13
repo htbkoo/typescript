@@ -14,8 +14,8 @@ describe("1002. Find Common Characters", function () {
                 const actual = commonChars(input);
 
                 // then
-
-                chai.expect(actual).to.deep.equal(output);
+                chai.expect(actual.length).to.deep.equal(output.length);
+                chai.expect(actual).to.have.members(output);
             })
         );
     });

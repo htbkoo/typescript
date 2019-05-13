@@ -32,17 +32,19 @@ Note:
  * @return {string[]}
  */
 var commonChars = function (A: string[]): string[] {
-    const commonFreq = A.splice(1).map(countCharFreq)
-        .reduce((obj, curr) => {
-            return Object.keys(curr).reduce((o, ch) => {
-                if (ch in obj) {
-                    o[ch] = Math.min(obj[ch], curr[ch]);
-                }
-                return o;
-            }, {});
-        }, countCharFreq(A[0]));
+    const commonFreq =
+        A.splice(1)
+            .map(countCharFreq)
+            .reduce(
+                getMinFreq,
+                countCharFreq(A[0])
+            );
 
-    return Object.keys(commonFreq).reduce((arr, ch) => arr.concat(ch.repeat(commonFreq[ch]).split("")), []);
+    return Object.keys(commonFreq)
+        .reduce(
+            (arr, ch) => arr.concat(getRepeatedCharArray(ch, commonFreq[ch])),
+            []
+        );
 
     function countCharFreq(str: string): { [ch: string]: number } {
         return str.split("").reduce((obj, char) => {
@@ -53,6 +55,19 @@ var commonChars = function (A: string[]): string[] {
             }
             return obj;
         }, {});
+    }
+
+    function getMinFreq(obj, curr) {
+        return Object.keys(curr).reduce((o, ch) => {
+            if (ch in obj) {
+                o[ch] = Math.min(obj[ch], curr[ch]);
+            }
+            return o;
+        }, {})
+    }
+
+    function getRepeatedCharArray(ch, freq: number) {
+        return ch.repeat(freq).split("");
     }
 };
 
