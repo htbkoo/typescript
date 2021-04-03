@@ -34,6 +34,23 @@ Constraints:
  * @return {number}
  */
 var largestAltitude = function(gain) {
+    return gain.reduce(({max, altitude}, delta)=>{
+        const nextAltitude = altitude + delta;
+        return {
+            altitude: nextAltitude,
+            max: Math.max(max, nextAltitude),
+        };
+    }, {
+        max: 0,
+        altitude: 0,
+    }).max;
+};
+
+/**
+ * @param {number[]} gain
+ * @return {number}
+ */
+var firstLargestAltitude = function(gain) {
     let max = 0;
     let altitude = 0;
     for (let delta of gain){
