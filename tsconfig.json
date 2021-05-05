@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     // For --target ES5: DOM,ES5,ScriptHost
     // For --target ES6: DOM,ES6,DOM.Iterable,ScriptHost
-    "lib": ["dom", "es6","dom.iterable", "scripthost", "es2017.string"]
+    "lib": ["dom", "es6","dom.iterable", "scripthost", "es2017.string", "ES2017.Object"]
   },
   "include": [
     "typings/index.d.ts",
